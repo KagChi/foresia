@@ -1,20 +1,53 @@
 {
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build"
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix"
+  },
+  "dependencies": {
+    "next": "14.2.2",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@hazmi35/eslint-config": "^13.3.1",
+    "@next/eslint-plugin-next": "^14.2.2",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.2",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "project": "./tsconfig.json"
     },
-    "devDependencies": {
-        "@types/react-dom": "^18.2.22",
-        "axios": "^1.6.4",
-        "laravel-vite-plugin": "^1.0.2",
-        "vite": "^5.0"
-    },
-    "dependencies": {
-        "@types/react": "^18.2.65",
-        "@vitejs/plugin-react": "^4.2.1",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+    "extends": [
+      "@hazmi35/eslint-config/typescript",
+      "plugin:tailwindcss/recommended",
+      "next"
+    ],
+    "rules": {
+      "tailwindcss/no-custom-classname": [
+        "error",
+        {
+          "whitelist": [
+            "fa-.*"
+          ]
+        }
+      ],
+      "@typescript-eslint/naming-convention": "off",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-redundant-type-constituents": "off",
+      "max-lines": "off"
     }
+  }
 }
