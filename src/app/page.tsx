@@ -24,12 +24,12 @@ export default function Home() {
                 </div>
 
                 <div className="flex flex-col gap-4">
-                    <p className="flex gap-2 items-center font-bold text-lg text-white">
+                    <p className="flex gap-2 items-center font-bold text-white">
                         <i className="fa-solid fa-paper-plane" />
                         Topics
                     </p>
                     <div>
-                        <p className="flex justify-between items-center text-lg text-gray-400">
+                        <p className="flex justify-between items-center text-gray-400">
                             <span className="flex gap-2 items-center">
                                 <i className="fa-solid fa-gamepad w-6" />
                                 Gaming
@@ -37,7 +37,7 @@ export default function Home() {
 
                             <i className="fa-solid fa-chevron-down" />
                         </p>
-                        <p className="flex justify-between items-center text-lg text-gray-400">
+                        <p className="flex justify-between items-center text-gray-400">
                             <span className="flex gap-2 items-center">
                                 <i className="fa-brands fa-bitcoin w-6" />
                                 Crypto
@@ -45,7 +45,7 @@ export default function Home() {
 
                             <i className="fa-solid fa-chevron-down" />
                         </p>
-                        <p className="flex justify-between items-center text-lg text-gray-400">
+                        <p className="flex justify-between items-center text-gray-400">
                             <span className="flex gap-2 items-center">
                                 <i className="fa-solid fa-chart-line w-6" />
                                 Business
@@ -53,7 +53,7 @@ export default function Home() {
 
                             <i className="fa-solid fa-chevron-down" />
                         </p>
-                        <p className="flex justify-between items-center text-lg text-gray-400">
+                        <p className="flex justify-between items-center text-gray-400">
                             <span className="flex gap-2 items-center">
                                 <i className="fa-solid fa-baseball w-6" />
                                 Sports
