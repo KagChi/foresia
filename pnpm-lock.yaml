@@ -12,10 +12,10 @@ importers:
         specifier: 14.2.2
         version: 14.2.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react:
-        specifier: ^18
+        specifier: ^18.2.0
         version: 18.2.0
       react-dom:
-        specifier: ^18
+        specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
     devDependencies:
       '@hazmi35/eslint-config':
@@ -25,13 +25,13 @@ importers:
         specifier: ^14.2.2
         version: 14.2.2
       '@types/node':
-        specifier: ^20
+        specifier: ^20.12.7
         version: 20.12.7
       '@types/react':
-        specifier: ^18
+        specifier: ^18.2.79
         version: 18.2.79
       '@types/react-dom':
-        specifier: ^18
+        specifier: ^18.2.25
         version: 18.2.25
       '@typescript-eslint/eslint-plugin':
         specifier: ^7.7.0
@@ -46,10 +46,10 @@ importers:
         specifier: ^3.15.1
         version: 3.15.1(tailwindcss@3.4.3)
       postcss:
-        specifier: ^8
+        specifier: ^8.4.38
         version: 8.4.38
       tailwindcss:
-        specifier: ^3.4.1
+        specifier: ^3.4.3
         version: 3.4.3
       typescript:
         specifier: ^5.4.5
