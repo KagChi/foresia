@@ -6,7 +6,7 @@ export const SearchQuery = () => {
     const [query, setQuery] = useState("");
 
     return (
-        <div className="flex flex-row items-center justify-center gap-6 rounded-md bg-[#12372A] px-4 py-3 text-center text-sm text-white opacity-60">
+        <div className="flex flex-row items-center gap-6 rounded-md bg-[#12372A] px-4 py-3 text-center text-sm text-white opacity-60">
             <a aria-label="Cari artikel.." href={`/search?query=${encodeURIComponent(query)}`}>
                 <i className="fa-lg fa-solid fa-magnifying-glass" />
             </a>
