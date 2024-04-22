@@ -20,7 +20,7 @@ export default function Home() {
                         Home
                         </p>
                         <div className="font-medium">
-                            <p className="font-medium text-gray-400">Popular Subrealm</p>
+                            <p className="font-medium text-gray-400">Popular Subrealms</p>
                             <p className="font-medium text-gray-400">Help & Settings</p>
                         </div>
                     </div>
