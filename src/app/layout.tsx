@@ -9,9 +9,9 @@ export async function generateMetadata(): Promise<Metadata> {
     return {
         title: {
             template: "Foresia | %s",
-            default: "Foresia | Home"
+            default: "Foresia | Surf with communities"
         },
-        description: "Membuat komunitas tersendiri, chat dengan komunitas",
+        description: "Create your own community, Surf with communities",
         authors: [
             {
                 name: "KagChi",
