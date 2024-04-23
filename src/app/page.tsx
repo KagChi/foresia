@@ -6,7 +6,7 @@ export default function Home() {
     return (
         <>
             <div className="flex flex-row overflow-x-hidden">
-                <div className="flex min-h-screen w-full flex-col gap-10 bg-[#1B1B1B] px-8 py-4 md:w-80">
+                <div className="hidden min-h-screen w-full flex-col gap-10 bg-[#1B1B1B] px-8 py-4 md:w-80 lg:flex">
                     <div className="flex flex-row items-center gap-4 text-white">
                         <Image className="size-12 rounded-full" height={512} width={512} alt="Logo" src={"/Logo.png"} />
                         <p className="text-xl font-bold ">Foresia</p>
