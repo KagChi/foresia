@@ -38,12 +38,12 @@ export default async function RootLayout({
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
             </head>
 
-            <body className={Baloo.className}>
-                <div className="flex flex-row overflow-x-hidden">
+            <body className={`${Baloo.className} flex h-full min-h-screen flex-row overflow-x-hidden`}>
+                <div className="shrink-0">
                     <Sidebar />
-
-                    {children}
                 </div>
+
+                <div className="grow">{children}</div>
             </body>
         </html>
     );

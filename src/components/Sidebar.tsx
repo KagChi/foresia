@@ -44,7 +44,7 @@ export const Sidebar = () => {
                 }
             </button>
 
-            <div className={`sidebar-container ${state ? "absolute z-40 flex min-h-screen w-9/12 flex-col gap-10 bg-[#1B1B1B] px-8 py-4 md:relative md:w-80" : "hidden min-h-screen w-full flex-col gap-10 bg-[#1B1B1B] px-8 py-4 md:w-80 lg:flex"}`}>
+            <div className={`sidebar-container flex h-full flex-col gap-10 bg-[#1B1B1B] px-8 py-4 ${state ? "absolute z-40 w-9/12 px-8 py-4 md:relative md:w-80" : "hidden w-full md:w-80 lg:flex"}`}>
                 <a href="/" className="flex flex-row items-center gap-4 text-white">
                     <Image className="size-12 rounded-full" height={512} width={512} alt="Logo" src={"/Logo.png"} />
                     <p className="text-xl font-bold ">Foresia</p>
