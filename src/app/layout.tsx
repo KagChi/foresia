@@ -4,6 +4,7 @@
 import "./globals.css";
 import { Metadata } from "next";
 import { Baloo } from "@/constants/fonts";
+import { Sidebar } from "@/components/Sidebar";
 
 export async function generateMetadata(): Promise<Metadata> {
     return {
@@ -37,7 +38,13 @@ export default async function RootLayout({
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
             </head>
 
-            <body className={Baloo.className}>{children}</body>
+            <body className={Baloo.className}>
+                <div className="flex flex-row overflow-x-hidden">
+                    <Sidebar />
+
+                    {children}
+                </div>
+            </body>
         </html>
     );
 }
