@@ -1,7 +1,7 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 "use client";
 
-import { Navigation, UsersRound, Gamepad2, ChevronDown, Bitcoin, LineChart, Dumbbell, MessageCircleMore, Menu, X } from "lucide-react";
+import { Navigation, UsersRound, Gamepad2, ChevronDown, Bitcoin, LineChart, Dumbbell, MessageCircleMore, Menu, X, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { SearchQuery } from "./SearchQuery";
 import { useImmer } from "use-immer";
@@ -45,10 +45,10 @@ export const Sidebar = () => {
             </button>
 
             <div className={`sidebar-container ${state ? "absolute z-40 flex min-h-screen w-9/12 flex-col gap-10 bg-[#1B1B1B] px-8 py-4 md:relative md:w-80" : "hidden min-h-screen w-full flex-col gap-10 bg-[#1B1B1B] px-8 py-4 md:w-80 lg:flex"}`}>
-                <div className="flex flex-row items-center gap-4 text-white">
+                <a href="/" className="flex flex-row items-center gap-4 text-white">
                     <Image className="size-12 rounded-full" height={512} width={512} alt="Logo" src={"/Logo.png"} />
                     <p className="text-xl font-bold ">Foresia</p>
-                </div>
+                </a>
 
                 <SearchQuery />
 
@@ -81,7 +81,13 @@ export const Sidebar = () => {
                 Gaming
                                 </span>
 
-                                <ChevronDown />
+                                {
+                                    !topicsState.gaming && <ChevronDown />
+                                }
+
+                                {
+                                    topicsState.gaming && <ChevronRight />
+                                }
                             </button>
                             {
                                 topicsState.gaming && <>
@@ -102,7 +108,13 @@ export const Sidebar = () => {
                 Crypto
                                 </span>
 
-                                <ChevronDown />
+                                {
+                                    !topicsState.crypto && <ChevronDown />
+                                }
+
+                                {
+                                    topicsState.crypto && <ChevronRight />
+                                }
                             </button>
 
                             {
@@ -124,7 +136,13 @@ export const Sidebar = () => {
                 Business
                                 </span>
 
-                                <ChevronDown />
+                                {
+                                    !topicsState.business && <ChevronDown />
+                                }
+
+                                {
+                                    topicsState.business && <ChevronRight />
+                                }
                             </button>
 
                             {
@@ -146,7 +164,13 @@ export const Sidebar = () => {
                 Sports
                                 </span>
 
-                                <ChevronDown />
+                                {
+                                    !topicsState.sports && <ChevronDown />
+                                }
+
+                                {
+                                    topicsState.sports && <ChevronRight />
+                                }
                             </button>
 
                             {
