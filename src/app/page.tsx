@@ -1,7 +1,28 @@
-import { ChevronDown, ChevronUp, MessageSquareMore, PencilLine, Share2 } from "lucide-react";
+/* eslint-disable tailwindcss/no-custom-classname */
+"use client";
+
+import { ChevronDown, ChevronUp, CircleX, MessageSquareMore, PencilLine, Share2 } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+    const [image, imageState] = useState(false);
+
+    useEffect(() => {
+        const handleOutsideClick = (event: MouseEvent) => {
+            const target = event.target;
+            if (image && target instanceof HTMLElement && !target.closest(".image-container")) {
+                imageState(false);
+            }
+        };
+
+        document.addEventListener("mousedown", e => handleOutsideClick(e));
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, [image]);
+
     return (
         <>
             <div className="container relative flex w-full flex-col gap-2 p-10 lg:max-w-6xl">
@@ -48,7 +69,17 @@ export default function Home() {
                                     She often wears a school uniform or a casual outfit with a tail accessory. In her dragon form, she has white scales and powerful wings.
                                 </span>
                             </p>
-                            <Image height={1920} width={1280} className="h-48 rounded-lg object-cover md:h-[22rem]" alt="Content" src={"https://cdn.discordapp.com/attachments/1174136474250248204/1231795766776041534/th.png?ex=66384234&is=6625cd34&hm=01c577b8c91847fe94d93f8c5a3055993ba38dd9b73a4f808739341418b300a8&"} />
+                            {
+                                image && <>
+                                    <div className="fixed inset-0 z-[90] overflow-y-auto backdrop-blur-sm">
+                                        <CircleX className="absolute right-0 top-0 m-4 cursor-pointer text-white" size={32} onClick={() => imageState(false)} />
+                                        <div className="flex min-h-screen items-center justify-center">
+                                            <Image className="image-container" height={1920} width={1280} alt="Content" src={"https://cdn.discordapp.com/attachments/1174136474250248204/1231795766776041534/th.png?ex=66384234&is=6625cd34&hm=01c577b8c91847fe94d93f8c5a3055993ba38dd9b73a4f808739341418b300a8&"} />
+                                        </div>
+                                    </div>
+                                </>
+                            }
+                            <Image onClick={() => imageState(true)} height={1920} width={1280} className="h-48 rounded-lg object-cover md:h-[22rem]" alt="Content" src={"https://cdn.discordapp.com/attachments/1174136474250248204/1231795766776041534/th.png?ex=66384234&is=6625cd34&hm=01c577b8c91847fe94d93f8c5a3055993ba38dd9b73a4f808739341418b300a8&"} />
                         </div>
                     </div>
                 </div>
