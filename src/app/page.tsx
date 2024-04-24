@@ -5,7 +5,7 @@ export default function Home() {
     return (
         <>
             <div className="container relative flex w-full flex-col gap-2 p-10 lg:max-w-6xl">
-                <a href="/create" className="fixed bottom-4 right-4 z-50 flex items-center rounded-full bg-[#12372A] p-3">
+                <a href="/create/post" className="fixed bottom-4 right-4 z-50 flex items-center rounded-full bg-[#12372A] p-3">
                     <PencilLine color="white" />
                 </a>
 

@@ -58,7 +58,8 @@ export const Sidebar = () => {
         Navigation
                     </p>
                     <div className="flex flex-col font-medium">
-                        <a href="/create" className="font-medium text-gray-400">Create new post</a>
+                        <a href="/create/community" className="font-medium text-gray-400">Create new community</a>
+                        <a href="/create/post" className="font-medium text-gray-400">Create new post</a>
                         <a href="/popular" className="font-medium text-gray-400">Popular Subrealms</a>
                         <a href="/settings" className="font-medium text-gray-400">Help & Settings</a>
                     </div>
