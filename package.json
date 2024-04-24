@@ -10,10 +10,12 @@
     "lint:fix": "next lint --fix"
   },
   "dependencies": {
+    "immer": "^10.0.4",
     "lucide-react": "^0.372.0",
     "next": "14.2.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "use-immer": "^0.9.0"
   },
   "devDependencies": {
     "@hazmi35/eslint-config": "^12.0.0",
