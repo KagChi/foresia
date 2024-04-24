@@ -5,8 +5,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface ContentCardProps {
-    imageKey: string;
-
     title: string;
     description: string;
     image: string;
@@ -24,7 +22,7 @@ export const ContentCard = (props: ContentCardProps) => {
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
             const target = event.target;
-            if (fullscreenState && target instanceof HTMLElement && !target.closest(`.${props.imageKey}-image-container`)) {
+            if (fullscreenState && target instanceof HTMLElement && !target.closest(".image-container")) {
                 setFullscreenState(false);
             }
         };
@@ -34,7 +32,7 @@ export const ContentCard = (props: ContentCardProps) => {
         return () => {
             document.removeEventListener("mousedown", handleOutsideClick);
         };
-    }, [fullscreenState, props.imageKey]);
+    }, [fullscreenState]);
 
     return (
         <div className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4 lg:w-3/4">
@@ -42,7 +40,7 @@ export const ContentCard = (props: ContentCardProps) => {
                 <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-sm text-white md:text-lg">
                     <ChevronUp strokeWidth={3} color="#5da35d" />
                     <p>2.5K</p>
-                    <ChevronDown strokeWidth={3} color="#701c1c" />
+                    <ChevronDown strokeWidth={3} color="#b32b2b" />
                 </div>
 
                 <div className="flex h-full flex-row gap-1">
@@ -77,8 +75,8 @@ export const ContentCard = (props: ContentCardProps) => {
                     fullscreenState && <>
                         <div className="fixed inset-0 z-[90] overflow-y-auto backdrop-blur-sm">
                             <CircleX className="absolute right-0 top-0 m-4 cursor-pointer text-white" size={32} onClick={() => setFullscreenState(false)} />
-                            <div className="flex min-h-screen items-center justify-center">
-                                <Image className={`${props.imageKey}-image-container`} height={1920} width={1280} alt="Content" src={props.image} />
+                            <div className={"flex min-h-screen items-center justify-center"}>
+                                <Image className="image-container" height={1920} width={1280} alt="Content" src={props.image} />
                             </div>
                         </div>
                     </>
