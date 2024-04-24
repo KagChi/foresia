@@ -1,10 +1,11 @@
 /* eslint-disable tailwindcss/no-custom-classname */
+"use client";
 import { ChevronUp, ChevronDown, MessageSquareMore, Share2, CircleX } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface ContentCardProps {
-    key: string;
+    imageKey: string;
 
     title: string;
     description: string;
@@ -23,7 +24,7 @@ export const ContentCard = (props: ContentCardProps) => {
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
             const target = event.target;
-            if (fullscreenState && target instanceof HTMLElement && !target.closest(`.${props.key}-image-container`)) {
+            if (fullscreenState && target instanceof HTMLElement && !target.closest(`.${props.imageKey}-image-container`)) {
                 setFullscreenState(false);
             }
         };
@@ -33,7 +34,7 @@ export const ContentCard = (props: ContentCardProps) => {
         return () => {
             document.removeEventListener("mousedown", handleOutsideClick);
         };
-    }, [fullscreenState, props.key]);
+    }, [fullscreenState, props.imageKey]);
 
     return (
         <div className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4 lg:w-3/4">
@@ -77,7 +78,7 @@ export const ContentCard = (props: ContentCardProps) => {
                         <div className="fixed inset-0 z-[90] overflow-y-auto backdrop-blur-sm">
                             <CircleX className="absolute right-0 top-0 m-4 cursor-pointer text-white" size={32} onClick={() => setFullscreenState(false)} />
                             <div className="flex min-h-screen items-center justify-center">
-                                <Image className={`${props.key}-image-container`} height={1920} width={1280} alt="Content" src={props.image} />
+                                <Image className={`${props.imageKey}-image-container`} height={1920} width={1280} alt="Content" src={props.image} />
                             </div>
                         </div>
                     </>
