@@ -1,21 +1,32 @@
-import { ChevronDown, ChevronUp, PencilLine } from "lucide-react";
+import { ChevronDown, ChevronUp, MessageSquareMore, PencilLine, Share2 } from "lucide-react";
 import Image from "next/image";
 
 export default function Home() {
     return (
         <>
             <div className="container relative flex w-full flex-col gap-2 p-10 lg:max-w-6xl">
-                <button className="fixed bottom-4 right-4 z-50 flex items-center rounded-full bg-[#12372A] p-3">
+                <a href="/create" className="fixed bottom-4 right-4 z-50 flex items-center rounded-full bg-[#12372A] p-3">
                     <PencilLine color="white" />
-                </button>
+                </a>
 
                 <div className="flex flex-col gap-4">
                     <div className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4 lg:w-3/4">
-                        <div>
-                            <div className="flex w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-2 text-sm text-white md:text-lg">
+                        <div className="flex h-10 flex-row items-center justify-between">
+                            <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-sm text-white md:text-lg">
                                 <ChevronUp strokeWidth={3} color="green" />
                                 <p>2.5K</p>
                                 <ChevronDown strokeWidth={3} color="red" />
+                            </div>
+
+                            <div className="flex h-full flex-row gap-1">
+                                <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-white">
+                                    <MessageSquareMore size={22} color="white" />
+                                    <p>36</p>
+                                </div>
+
+                                <div className="flex h-full flex-row items-center gap-1 rounded-full bg-[#1B1B1B] p-2 text-white">
+                                    <Share2 />
+                                </div>
                             </div>
                         </div>
 
