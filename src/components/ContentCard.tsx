@@ -75,8 +75,8 @@ export const ContentCard = (props: ContentCardProps) => {
                     fullscreenState && <>
                         <div className="fixed inset-0 z-[90] overflow-y-auto backdrop-blur-sm">
                             <CircleX className="absolute right-0 top-0 m-4 cursor-pointer text-white" size={32} onClick={() => setFullscreenState(false)} />
-                            <div className={"flex min-h-screen items-center justify-center"}>
-                                <Image className="image-container" height={1920} width={1280} alt="Content" src={props.image} />
+                            <div className={"flex size-full items-center justify-center"}>
+                                <Image className="image-container h-2/3 w-3/5 object-contain" height={1920} width={1280} alt="Content" src={props.image} />
                             </div>
                         </div>
                     </>
