@@ -34,10 +34,6 @@ export default async function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <head>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-            </head>
-
             <body className={`${Baloo.className} flex h-full min-h-screen flex-row overflow-x-hidden`}>
                 <div className="shrink-0">
                     <Sidebar />

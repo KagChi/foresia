@@ -11,17 +11,17 @@ export default function Create() {
                 <div className="mt-12 flex flex-col gap-2 md:w-4/5 ">
                     <div className="flex flex-col gap-2 text-white">
                         <p className="text-2xl font-semibold">Post title<span className="text-red-500">*</span></p>
-                        <input className="min-h-8 w-full rounded-md bg-[#1B1B1B] p-2 outline-none" />
+                        <input className="min-h-8 w-full rounded-md bg-[#1B1B1B] px-4 py-2 outline-none" />
                     </div>
 
                     <div className="flex flex-col gap-2 text-white">
                         <p className="text-2xl font-semibold">Your message<span className="text-red-500">*</span></p>
-                        <textarea className="max-h-72 min-h-72 w-full rounded-md bg-[#1B1B1B] p-2 outline-none" />
+                        <textarea className="max-h-72 min-h-72 w-full rounded-md bg-[#1B1B1B] px-4 py-2 outline-none" />
                     </div>
 
                     <div className="flex flex-col gap-2 text-white">
                         <p className="text-2xl font-semibold">Community<span className="text-red-500">*</span></p>
-                        <select className="min-h-8 w-full rounded-md bg-[#1B1B1B] px-2 outline-none">
+                        <select className="min-h-8 w-full rounded-md bg-[#1B1B1B] px-4 py-2 outline-none">
                             <option>Select Community</option>
 
                             <optgroup label="Gaming">
