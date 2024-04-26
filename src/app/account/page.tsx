@@ -3,6 +3,83 @@
 import { ChevronLeft, CloudUpload } from "lucide-react";
 import Image from "next/image";
 
+export const Login = () => <>
+    <div className="container flex w-full max-w-3xl flex-col items-center justify-center gap-2 p-10">
+        <div className="flex w-full flex-col gap-4 rounded-md bg-[#1B1B1B] px-6 py-4 text-white">
+            <a href="/" className="flex flex-row gap-4 py-2 md:items-center">
+                <ChevronLeft size={28} />
+                <p className="text-2xl font-bold">Login</p>
+            </a>
+
+            <div className="h-0.5 w-full rounded bg-white opacity-10" />
+
+            <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 text-white">
+                    <p className="text-lg font-semibold">Username</p>
+                    <input className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                </div>
+
+                <div className="flex flex-col gap-2 text-white">
+                    <p className="text-lg font-semibold">Nickname</p>
+                    <input className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                </div>
+
+                <div className="flex flex-col gap-2 text-white">
+                    <p className="text-lg font-semibold">Email</p>
+                    <input className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                </div>
+            </div>
+
+            <button onClick={() => document.getElementById("image")?.click()} className="ml-auto mt-6 flex h-10 min-w-fit flex-row items-center justify-between gap-2 rounded-md bg-[#12372A40] px-4 py-2 text-xs font-bold md:text-base">
+                <p>Login Now</p>
+            </button>
+        </div>
+    </div>
+</>;
+
+export const Register = () => <>
+    <div className="container flex w-full max-w-3xl flex-col items-center justify-center gap-2 p-10">
+        <div className="flex w-full flex-col gap-4 rounded-md bg-[#1B1B1B] px-6 py-4 text-white">
+            <a href="/" className="flex flex-row gap-4 py-2 md:items-center">
+                <ChevronLeft size={28} />
+                <p className="text-2xl font-bold">Register</p>
+            </a>
+
+            <div className="h-0.5 w-full rounded bg-white opacity-10" />
+
+            <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 text-white">
+                    <p className="text-lg font-semibold">Username</p>
+                    <input className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                </div>
+
+                <div className="flex flex-col gap-2 text-white">
+                    <p className="text-lg font-semibold">Nickname</p>
+                    <input className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                </div>
+
+                <div className="flex flex-col gap-2 text-white">
+                    <p className="text-lg font-semibold">Email</p>
+                    <input className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                </div>
+
+                <div className="flex flex-col gap-2 text-white">
+                    <p className="text-2xl font-semibold">Avatar</p>
+                    <input accept="image/jpeg, image/jpg, image/webp, image/gif" id="avatar" type="file" hidden />
+                    <button onClick={() => document.getElementById("avatar")?.click()} className="flex w-full flex-row items-center justify-between gap-2 rounded-md bg-[#12372A40] px-4 py-2 md:w-fit">
+                        <p>Upload Avatar</p>
+                        <CloudUpload />
+                    </button>
+                </div>
+            </div>
+
+            <button onClick={() => document.getElementById("image")?.click()} className="ml-auto mt-6 flex h-10 min-w-fit flex-row items-center justify-between gap-2 rounded-md bg-[#12372A40] px-4 py-2 text-xs font-bold md:text-base">
+                <p>Login Now</p>
+            </button>
+        </div>
+    </div>
+</>;
+
 export default function Account() {
     return (
         <>
