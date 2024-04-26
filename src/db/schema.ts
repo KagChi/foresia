@@ -15,6 +15,7 @@ export function updatedAt(name?: string): HasDefault<NotNull<PgTimestampBuilderI
 
 export const user = pgTable("user", {
     id: uuid("id").primaryKey().defaultRandom(),
+    nick: varchar("nick").notNull(),
     username: varchar("username").unique(),
     email: varchar("email").unique(),
 
