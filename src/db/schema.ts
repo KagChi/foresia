@@ -13,7 +13,7 @@ export function updatedAt(name?: string): HasDefault<NotNull<PgTimestampBuilderI
         .$onUpdate(() => new Date());
 }
 
-export const user = pgTable("user", {
+export const User = pgTable("user", {
     id: uuid("id").primaryKey().defaultRandom(),
     nick: varchar("nick").notNull(),
     username: varchar("username").unique(),
