@@ -1,5 +1,6 @@
 "use client";
 
+import { Search } from "lucide-react";
 import { useState } from "react";
 
 export const SearchQuery = () => {
@@ -8,7 +9,7 @@ export const SearchQuery = () => {
     return (
         <div className="flex flex-row items-center gap-6 rounded-md bg-[#12372A] px-4 py-3 text-center text-sm text-white opacity-60">
             <a aria-label="Search realm.." href={`/search?query=${encodeURIComponent(query)}`}>
-                <i className="fa-lg fa-solid fa-magnifying-glass" />
+                <Search />
             </a>
             <input onKeyDown={e => {
                 if (e.key === "Enter" && query.length) {
