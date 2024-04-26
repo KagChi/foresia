@@ -35,7 +35,7 @@ export const ContentCard = (props: ContentCardProps) => {
     }, [fullscreenState]);
 
     return (
-        <div className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4 lg:w-3/4">
+        <div className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4">
             <div className="flex h-10 flex-row items-center justify-between">
                 <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-sm text-white md:text-lg">
                     <ChevronUp strokeWidth={3} color="#5da35d" />

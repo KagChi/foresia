@@ -4,12 +4,12 @@ import { PencilLine } from "lucide-react";
 export default function Home() {
     return (
         <>
-            <div className="container relative flex w-full flex-col gap-2 p-10 lg:max-w-6xl">
+            <div className="container relative flex flex-col items-center gap-2 p-10">
                 <a href="/create/post" className="fixed bottom-4 right-4 z-50 flex items-center rounded-full bg-[#12372A] p-3">
                     <PencilLine color="white" />
                 </a>
 
-                <div className="flex flex-col gap-4">
+                <div className="flex max-w-3xl flex-col gap-4">
                     <ContentCard
                         avatar="https://cdn.discordapp.com/avatars/597678468280614922/a39daa2dd7e9bea3c68ac80515f3c45a.png?size=1024"
                         user="ArkanDash"
