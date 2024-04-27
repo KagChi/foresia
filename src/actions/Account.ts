@@ -8,25 +8,26 @@ import { getAuth } from "firebase-admin/auth";
 
 export const createAccount = async (props: FormData) => {
     try {
-        await db.transaction(async tx => {
-            const result = await tx.insert(User).values({
-                email: props.get("email") as string,
-                nick: props.get("displayName") as string,
-                username: props.get("username") as string
-            }).returning({ id: User.id });
+        const result = await db.insert(User).values({
+            email: props.get("email") as string,
+            nick: props.get("displayName") as string,
+            username: props.get("username") as string
+        }).returning({ id: User.id });
 
-            try {
-                await getAuth(await firebase())
-                    .createUser({
-                        email: props.get("email") as string,
-                        displayName: props.get("displayName") as string,
-                        password: props.get("password") as string,
-                        uid: result[0].id
-                    });
-            } catch {
-                tx.rollback();
-            }
-        });
+        try {
+            await getAuth(await firebase())
+                .createUser({
+                    email: props.get("email") as string,
+                    displayName: props.get("displayName") as string,
+                    password: props.get("password") as string,
+                    uid: result[0].id
+                });
+        } catch {
+            await db.delete(User)
+                .where(
+                    eq(User.id, result[0].id)
+                );
+        }
 
         return { message: "Successfully created account !", success: true };
     } catch (e: unknown) {
