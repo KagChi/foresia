@@ -3,11 +3,13 @@
 
 import { ChevronLeft, CloudUpload, LoaderCircle } from "lucide-react";
 import Image from "next/image";
-import { createAccount } from "../actions/Account";
+import { createAccount, findAccount } from "../../actions/Account";
 import toast from "react-hot-toast";
 import { useFormStatus } from "react-dom";
 import { useState } from "react";
 import { PageSwitchingContext, usePageSwitching } from "@/context/PageSwitching";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { firebaseApp, firebaseAuth } from "@/lib/client.firebase";
 
 const SubmitButton = ({ text }: { text: string }) => {
     const { pending } = useFormStatus();
@@ -27,7 +29,28 @@ const Login = () => {
     return (
         <>
             <div className="container flex w-full max-w-3xl flex-col items-center justify-center gap-2 p-10">
-                <div className="flex w-full flex-col gap-4 rounded-md bg-[#1B1B1B] px-6 py-4 text-white">
+                <form action={p => findAccount(p).then(x => {
+                    if (x.success && x.data?.email) {
+                        void signInWithEmailAndPassword(firebaseAuth, x.data.email, p.get("password") as string)
+                            .catch(reason => {
+                                const { message } = reason as { message: string };
+                                if (message.includes("invalid")) {
+                                    toast.error("Password wrong!");
+                                } if (message.includes("to many")) {
+                                    toast.error("You are being ratelimited!");
+                                } else {
+                                    toast.error("Unknown client side error!");
+                                }
+                            })
+                            .then(y => {
+                                if (typeof y === "object") {
+                                    toast.success(`Logged in as ${y.user.displayName}`);
+                                }
+                            });
+                    } else {
+                        toast.error(x.message);
+                    }
+                })} className="flex w-full flex-col gap-4 rounded-md bg-[#1B1B1B] px-6 py-4 text-white">
                     <a href="/" className="flex flex-row gap-4 py-2 md:items-center">
                         <ChevronLeft size={28} />
                         <p className="text-2xl font-bold">Login</p>
@@ -51,7 +74,7 @@ const Login = () => {
                         <p onClick={() => setPage("register")} className="mt-auto cursor-pointer">Dont have account? <span className="underline">register now</span></p>
                         <SubmitButton text="Login Now" />
                     </div>
-                </div>
+                </form>
             </div>
         </>
     );

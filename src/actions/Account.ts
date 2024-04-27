@@ -2,7 +2,8 @@
 
 import db from "@/db/drizzle";
 import { User } from "@/db/schema";
-import { firebase } from "@/lib/firebase";
+import { firebase } from "@/lib/server.firebase";
+import { eq, or } from "drizzle-orm";
 import { getAuth } from "firebase-admin/auth";
 
 export const createAccount = async (props: FormData) => {
@@ -40,5 +41,42 @@ export const createAccount = async (props: FormData) => {
         console.error(e);
 
         return { message: "Failed to create account with unknown reason", success: false };
+    }
+};
+
+export const findAccount = async (props: FormData) => {
+    try {
+        const result = await db.select({
+            email: User.email
+        })
+            .from(User)
+            .where(
+                or(
+                    eq(User.email, props.get("user_or_email") as string),
+                    eq(User.username, props.get("user_or_email") as string)
+                )
+            );
+
+        if (result.length) {
+            return {
+                data: { email: result[0].email },
+                message: "That account exist!",
+                success: true
+            };
+        }
+
+        return {
+            data: null,
+            message: "Account doesnt seem exist!",
+            success: false
+        };
+    } catch (e: unknown) {
+        console.log(e);
+
+        return {
+            data: null,
+            message: "Server side error ocurred, please contact admin!",
+            success: false
+        };
     }
 };
