@@ -1,3 +1,4 @@
+import { Role } from "@/constants/enum";
 import { HasDefault, NotNull } from "drizzle-orm";
 import { pgTable, PgTimestampBuilderInitial, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
@@ -20,6 +21,8 @@ export const User = pgTable("user", {
     email: varchar("email").unique(),
 
     avatar: varchar("avatar"),
+
+    roles: varchar("roles").default(Role.User.toString()),
 
     createdAt: createdAt("created_at"),
     updatedAt: updatedAt("updated_at")
