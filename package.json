@@ -12,6 +12,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.563.0",
     "@neondatabase/serverless": "^0.9.1",
+    "cookies-next": "^4.1.1",
     "drizzle-orm": "^0.30.9",
     "firebase": "^10.11.1",
     "firebase-admin": "^12.1.0",
