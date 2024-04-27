@@ -37,6 +37,8 @@ export const createAccount = async (props: FormData) => {
             }
         }
 
+        console.error(e);
+
         return { message: "Failed to create account with unknown reason", success: false };
     }
 };
