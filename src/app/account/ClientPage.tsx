@@ -73,7 +73,7 @@ const Login = () => {
 
                         <div className="flex flex-col gap-2 text-white">
                             <p className="text-lg font-semibold">Password</p>
-                            <input required name="password" className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                            <input type="password" required name="password" className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
                         </div>
                     </div>
 
