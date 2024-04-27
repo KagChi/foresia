@@ -2,7 +2,6 @@
 
 import { CircleX, CloudUpload, Equal, Send } from "lucide-react";
 import { useState } from "react";
-import { randomBytes } from "node:crypto";
 
 interface Rule {
     text: string;
@@ -14,7 +13,7 @@ export default function Create() {
 
     return (
         <>
-            <div className="container flex w-full flex-col gap-2 p-10 lg:max-w-6xl">
+            <div className="container flex max-w-3xl flex-col gap-2 p-10">
                 <p className="text-4xl font-bold text-white">Create new community</p>
 
                 <div className="mt-12 flex flex-col gap-2 md:w-4/5 ">
@@ -32,7 +31,7 @@ export default function Create() {
                         <p className="text-2xl font-semibold">Rules<span className="text-red-500">*</span></p>
                         <input onKeyDown={e => {
                             if (e.key === "Enter" && e.currentTarget.value) {
-                                setRules([...rules, { text: e.currentTarget.value, id: randomBytes(4).toString("hex") }]);
+                                setRules([...rules, { text: e.currentTarget.value, id: (Math.random() + 1).toString(36).substring(7) }]);
                                 e.currentTarget.value = "";
                             }
                         }} className="min-h-8 w-full rounded-md bg-[#1B1B1B] px-4 py-2 outline-none" />

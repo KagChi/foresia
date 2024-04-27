@@ -1,7 +1,7 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 "use client";
 
-import { Navigation, UsersRound, Gamepad2, ChevronDown, Bitcoin, LineChart, Dumbbell, MessageCircleMore, Menu, X, ChevronRight } from "lucide-react";
+import { Navigation, UsersRound, Gamepad2, ChevronDown, Bitcoin, LineChart, Dumbbell, Menu, X, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { SearchQuery } from "./SearchQuery";
 import { useImmer } from "use-immer";
@@ -61,6 +61,7 @@ export const Sidebar = () => {
                         <a href="/create/community" className="font-medium text-gray-400">Create new community</a>
                         <a href="/create/post" className="font-medium text-gray-400">Create new post</a>
                         <a href="/popular" className="font-medium text-gray-400">Popular Subrealms</a>
+                        <a href="/account" className="font-medium text-gray-400">Manage Account</a>
                         <a href="/settings" className="font-medium text-gray-400">Help & Settings</a>
                     </div>
                 </div>
@@ -185,7 +186,7 @@ export const Sidebar = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-4">
+                {/* <div className="flex flex-col gap-4">
                     <p className="flex items-center gap-2 text-lg font-bold text-white">
                         <MessageCircleMore strokeWidth={3} />
         My Communities
@@ -197,7 +198,7 @@ export const Sidebar = () => {
                         <a href="/fs/indonesia" className="font-medium text-gray-400">fs/Indonesia</a>
                         <a href="/fs/genshinimpact" className="font-medium text-gray-400">fs/GenshinImpact</a>
                     </div>
-                </div>
+                </div> */}
             </div>
         </>
     );

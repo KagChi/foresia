@@ -5,7 +5,7 @@ import { CloudUpload, Send } from "lucide-react";
 export default function Create() {
     return (
         <>
-            <div className="container flex w-full flex-col gap-2 p-10 lg:max-w-6xl">
+            <div className="container flex max-w-3xl flex-col gap-2 p-10">
                 <p className="text-4xl font-bold text-white">Create new post</p>
 
                 <div className="mt-12 flex flex-col gap-2 md:w-4/5 ">

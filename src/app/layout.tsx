@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/require-await */
 "use server";
 
+/* eslint-disable @typescript-eslint/require-await */
 import "./globals.css";
-import { Metadata } from "next";
 import { Baloo } from "@/constants/fonts";
 import { Sidebar } from "@/components/Sidebar";
+import { Toaster } from "react-hot-toast";
+import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
     return {
@@ -35,6 +36,7 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body className={`${Baloo.className} flex h-full min-h-screen flex-row overflow-x-hidden`}>
+                <Toaster />
                 <div className="shrink-0">
                     <Sidebar />
                 </div>
