@@ -36,7 +36,7 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body className={`${Baloo.className} flex h-full min-h-screen flex-row overflow-x-hidden`}>
-                <Toaster position="bottom-right" />
+                <Toaster />
                 <div className="shrink-0">
                     <Sidebar />
                 </div>
