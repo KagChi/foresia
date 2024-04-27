@@ -36,11 +36,13 @@ const Login = () => {
                                 const { message } = reason as { message: string };
                                 if (message.includes("invalid")) {
                                     toast.error("Password wrong!");
+                                    return;
                                 } if (message.includes("to many")) {
                                     toast.error("You are being ratelimited!");
-                                } else {
-                                    toast.error("Unknown client side error!");
+                                    return;
                                 }
+
+                                toast.error("Unknown client side error!");
                             })
                             .then(y => {
                                 if (typeof y === "object") {
