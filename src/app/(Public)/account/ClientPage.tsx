@@ -2,7 +2,7 @@
 "use client";
 
 import { ChevronLeft, CloudUpload } from "lucide-react";
-import { createAccount, findAccount } from "../../actions/Account";
+import { createAccount, findAccount } from "../../../actions/Account";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { PageSwitchingContext, usePageSwitching } from "@/context/PageSwitching";
@@ -66,7 +66,7 @@ const Login = () => {
 
                     <div className="flex flex-row items-start">
                         <p onClick={() => setPage("register")} className="mt-auto cursor-pointer">Dont have account? <span className="underline">register now</span></p>
-                        <SubmitButton text="Login Now" />
+                        <SubmitButton.Secondary text="Login Now" />
                     </div>
                 </form>
             </div>
@@ -130,7 +130,7 @@ const Register = () => {
 
                     <div className="flex flex-row">
                         <p onClick={() => setPage("login")} className="mt-auto cursor-pointer">Already have an account? <span className="underline">Login now</span></p>
-                        <SubmitButton text="Register Now" />
+                        <SubmitButton.Secondary text="Register Now" />
                     </div>
                 </form>
             </div>

@@ -7,6 +7,7 @@ import { ChevronLeft } from "lucide-react";
 import db from "@/db/drizzle";
 import { eq } from "drizzle-orm";
 import { User } from "@/db/schema";
+import { SubmitButton } from "@/components/SubmitButton";
 
 export default async function Account() {
     const firebaseUser = await (await firebase()).auth().verifyIdToken(cookies().get("session")?.value ?? "", true).catch(() => null);
@@ -54,7 +55,7 @@ export default async function Account() {
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-col gap-2 text-white">
                             <p className="text-lg font-semibold">Username</p>
-                            <input type="text" required defaultValue={user.username ?? ""} className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                            <input type="text" required defaultValue={user.username} className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
                         </div>
 
                         <div className="flex flex-col gap-2 text-white">
@@ -64,13 +65,11 @@ export default async function Account() {
 
                         <div className="flex flex-col gap-2 text-white">
                             <p className="text-lg font-semibold">Email</p>
-                            <input type="email" required defaultValue={user.email ?? ""} className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                            <input type="email" required defaultValue={user.email} className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
                         </div>
                     </div>
 
-                    <button className="ml-auto mt-6 flex h-10 min-w-fit flex-row items-center justify-between gap-2 rounded-md bg-[#12372A40] px-4 py-2 text-xs font-bold md:text-base">
-                        <p>Save Changes</p>
-                    </button>
+                    <SubmitButton.Secondary text="Save Changes" />
                 </div>
             </div>
         </>

@@ -1,5 +1,6 @@
 "use client";
 
+import { SubmitButton } from "@/components/SubmitButton";
 import { CircleX, CloudUpload, Equal, Send } from "lucide-react";
 import { useState } from "react";
 
@@ -16,20 +17,20 @@ export default function Create() {
             <div className="container flex max-w-3xl flex-col gap-2 p-10">
                 <p className="text-4xl font-bold text-white">Create new community</p>
 
-                <div className="mt-12 flex flex-col gap-2 md:w-4/5 ">
+                <form className="mt-12 flex flex-col gap-2 md:w-4/5 ">
                     <div className="flex flex-col gap-2 text-white">
                         <p className="text-2xl font-semibold">Community name<span className="text-red-500">*</span></p>
-                        <input className="min-h-8 w-full rounded-md bg-[#1B1B1B] px-4 py-2 outline-none" />
+                        <input required type="text" className="min-h-8 w-full rounded-md bg-[#1B1B1B] px-4 py-2 outline-none" />
                     </div>
 
                     <div className="flex flex-col gap-2 text-white">
                         <p className="text-2xl font-semibold">Description<span className="text-red-500">*</span></p>
-                        <textarea className="max-h-72 min-h-72 w-full rounded-md bg-[#1B1B1B] px-4 py-2 outline-none" />
+                        <textarea required className="max-h-72 min-h-72 w-full rounded-md bg-[#1B1B1B] px-4 py-2 outline-none" />
                     </div>
 
                     <div className="flex flex-col gap-2 text-white">
                         <p className="text-2xl font-semibold">Rules<span className="text-red-500">*</span></p>
-                        <input onKeyDown={e => {
+                        <input required type="text" onKeyDown={e => {
                             if (e.key === "Enter" && e.currentTarget.value) {
                                 setRules([...rules, { text: e.currentTarget.value, id: (Math.random() + 1).toString(36).substring(7) }]);
                                 e.currentTarget.value = "";
@@ -69,11 +70,8 @@ export default function Create() {
                         </button>
                     </div>
 
-                    <button className="ml-auto mt-12 flex w-full flex-row items-center justify-between gap-4 rounded-md bg-[#1B1B1B] px-6 py-4 text-white md:w-fit">
-                        <p className="text-xl font-bold">Create Community</p>
-                        <Send />
-                    </button>
-                </div>
+                    <SubmitButton.Primary icon={<Send size={20} />} text="Create Community" />
+                </form>
             </div>
         </>
     );

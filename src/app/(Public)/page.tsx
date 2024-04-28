@@ -4,7 +4,7 @@ import { PencilLine } from "lucide-react";
 export default function Home() {
     return (
         <>
-            <div className="container relative flex flex-col items-center gap-2 p-10">
+            <div className="no-scrollbar container relative flex h-screen flex-col items-center gap-2 overflow-y-auto p-10">
                 <a href="/create/post" className="fixed bottom-4 right-4 z-50 flex items-center rounded-full bg-[#12372A] p-3">
                     <PencilLine color="white" />
                 </a>
