@@ -131,7 +131,7 @@ const Register = () => {
     );
 };
 
-export default function ClientPage() {
+export default function ClientAccountPage() {
     const page = usePageSwitchingSnapshot();
 
     if (page === "register") {

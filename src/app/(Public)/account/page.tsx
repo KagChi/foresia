@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import ClientPage from "./ClientPage";
+import ClientAccountPage from "./ClientAccountPage";
 import { firebase } from "@/lib/server.firebase";
 import { ChevronLeft } from "lucide-react";
 import db from "@/db/drizzle";
@@ -14,7 +14,7 @@ export default async function Account() {
     const firebaseUser = await (await firebase()).auth().verifySessionCookie(token, true).catch(() => null);
 
     if (!firebaseUser) {
-        return <ClientPage />;
+        return <ClientAccountPage />;
     }
 
     const user = await db.select({
