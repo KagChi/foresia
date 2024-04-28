@@ -3,12 +3,12 @@ name: Lint code & compile test
 on:
   push:
     branches:
-      - "**"
+      - '**'
   pull_request:
     branches:
-      - "**"
+      - '**'
 
 jobs:
   test:
     uses: nezuchan/workflows/.github/workflows/lint-and-compile-test.yml@main
-  secrets: inherit
+    secrets: inherit
