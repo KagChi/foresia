@@ -11,3 +11,4 @@ on:
 jobs:
   test:
     uses: nezuchan/workflows/.github/workflows/lint-and-compile-test.yml@main
+  secrets: inherit
