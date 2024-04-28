@@ -4,7 +4,12 @@ import { LoaderCircle } from "lucide-react";
 import React from "react";
 import { useFormStatus } from "react-dom";
 
-const PrimarySubmitButton = ({ text, icon }: { text: string; icon?: React.JSX.Element }) => {
+interface SubmitButtonProps {
+    text: string;
+    icon?: React.ReactNode;
+}
+
+const Primary: React.FC<SubmitButtonProps> = ({ text, icon }) => {
     const { pending } = useFormStatus();
 
     return (
@@ -22,7 +27,7 @@ const PrimarySubmitButton = ({ text, icon }: { text: string; icon?: React.JSX.El
     );
 };
 
-const SecondarySubmitButton = ({ text, icon }: { text: string; icon?: React.JSX.Element }) => {
+const Secondary: React.FC<SubmitButtonProps> = ({ text, icon }) => {
     const { pending } = useFormStatus();
 
     return (
@@ -41,7 +46,7 @@ const SecondarySubmitButton = ({ text, icon }: { text: string; icon?: React.JSX.
 };
 
 
-export const SubmitButton = {
-    Primary: PrimarySubmitButton,
-    Secondary: SecondarySubmitButton
+export {
+    Primary,
+    Secondary
 };

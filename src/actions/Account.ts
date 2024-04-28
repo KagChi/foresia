@@ -48,7 +48,9 @@ export const createAccount = async (props: FormData) => {
 export const findAccount = async (props: FormData) => {
     try {
         const result = await db.select({
-            email: User.email
+            email: User.email,
+            username: User.username,
+            nick: User.nick
         })
             .from(User)
             .where(
@@ -60,7 +62,7 @@ export const findAccount = async (props: FormData) => {
 
         if (result.length) {
             return {
-                data: { email: result[0].email },
+                data: result[0],
                 message: "That account exist!",
                 success: true
             };
