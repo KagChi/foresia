@@ -11,3 +11,10 @@ export const createSession = async (token: string) => {
     cookies()
         .set("session", auth, { maxAge: expiresIn });
 };
+
+export const fetchSession = async () => {
+    const token = cookies().get("session")?.value ?? "";
+    const firebaseUser = await (await firebase()).auth().verifySessionCookie(token, true).catch(() => null);
+
+    return firebaseUser;
+};

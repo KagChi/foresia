@@ -1,17 +1,15 @@
 "use server";
 
-import { cookies } from "next/headers";
 import ClientAccountPage from "./ClientAccountPage";
-import { firebase } from "@/lib/server.firebase";
 import { ChevronLeft } from "lucide-react";
 import db from "@/db/drizzle";
 import { eq } from "drizzle-orm";
 import { User } from "@/db/schema";
 import * as SubmitButton from "@/components/SubmitButton";
+import { fetchSession } from "@/actions/Auth";
 
 export default async function Account() {
-    const token = cookies().get("session")?.value ?? "";
-    const firebaseUser = await (await firebase()).auth().verifySessionCookie(token, true).catch(() => null);
+    const firebaseUser = await fetchSession();
 
     if (!firebaseUser) {
         return <ClientAccountPage />;
