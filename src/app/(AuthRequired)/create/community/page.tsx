@@ -1,6 +1,6 @@
 "use client";
 
-import { SubmitButton } from "@/components/SubmitButton";
+import * as SubmitButton from "@/components/SubmitButton";
 import { CircleX, CloudUpload, Equal, Send } from "lucide-react";
 import { useState } from "react";
 
