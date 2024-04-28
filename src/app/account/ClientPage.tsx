@@ -1,28 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { ChevronLeft, CloudUpload, LoaderCircle } from "lucide-react";
-import Image from "next/image";
+import { ChevronLeft, CloudUpload } from "lucide-react";
 import { createAccount, findAccount } from "../../actions/Account";
 import toast from "react-hot-toast";
-import { useFormStatus } from "react-dom";
 import { useState } from "react";
 import { PageSwitchingContext, usePageSwitching } from "@/context/PageSwitching";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseAuth } from "@/lib/client.firebase";
 import { setCookie } from "cookies-next";
-
-const SubmitButton = ({ text }: { text: string }) => {
-    const { pending } = useFormStatus();
-
-    return (
-        <button type="submit" disabled={pending} className={`${pending ? "cursor-no-drop bg-[#12372A65]" : "cursor-pointer bg-[#12372A40]"} ml-auto mt-6 flex h-10 min-w-fit flex-row items-center justify-between gap-2 rounded-md px-4 py-2 text-xs font-bold hover:bg-[#12372A65] md:text-base`}>
-            {
-                pending ? <LoaderCircle className="animate-spin" /> : <p>{text}</p>
-            }
-        </button>
-    );
-};
+import { SubmitButton } from "@/components/SubmitButton";
 
 const Login = () => {
     const { setPage } = usePageSwitching()!;
