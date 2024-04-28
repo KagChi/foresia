@@ -1,5 +1,6 @@
 "use client";
 
+import * as SubmitButton from "@/components/SubmitButton";
 import { CloudUpload, Send } from "lucide-react";
 
 export default function Create() {
@@ -44,10 +45,9 @@ export default function Create() {
                         </button>
                     </div>
 
-                    <button className="ml-auto mt-12 flex w-full flex-row items-center justify-between gap-4 rounded-md bg-[#1B1B1B] px-6 py-4 text-white md:w-fit">
-                        <p className="text-xl font-bold">Create Post</p>
-                        <Send />
-                    </button>
+                    <div className="ml-auto flex">
+                        <SubmitButton.Primary icon={<Send size={20} />} text="Create Post" />
+                    </div>
                 </div>
             </div>
         </>

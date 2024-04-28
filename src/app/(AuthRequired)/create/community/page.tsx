@@ -70,7 +70,9 @@ export default function Create() {
                         </button>
                     </div>
 
-                    <SubmitButton.Primary icon={<Send size={20} />} text="Create Community" />
+                    <div className="ml-auto flex">
+                        <SubmitButton.Primary icon={<Send size={20} />} text="Create Community" />
+                    </div>
                 </form>
             </div>
         </>

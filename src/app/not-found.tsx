@@ -2,23 +2,16 @@
 
 import { ProfileCardSidebar } from "@/components/ProfileCardSidebar";
 import { Sidebar } from "@/components/Sidebar";
-
 import { Baloo } from "@/constants/fonts";
 import { useAuthSnapshot } from "@/context/Auth";
-import { MessageCircleMore } from "lucide-react";
-import { Toaster } from "react-hot-toast";
+import { ChevronLeft, MessageCircleMore } from "lucide-react";
+import Image from "next/image";
 
-export default function RootLayout({
-    children
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
+export default function NotFound() {
     const auth = useAuthSnapshot();
 
     return (
         <body className={`${Baloo.className} flex h-full min-h-screen flex-row overflow-y-hidden`}>
-            <Toaster />
-
             <div className="shrink-0">
                 <Sidebar profile={<>
                     <div className="mt-auto flex h-24 flex-row items-center justify-between bg-[#12372A65] px-3 py-4">
@@ -41,7 +34,13 @@ export default function RootLayout({
                 </Sidebar>
             </div>
 
-            <div className="no-scrollbar h-screen grow overflow-y-auto">{children}</div>
+            <div className="flex size-full min-h-screen flex-col items-center justify-center gap-4">
+                <Image width={512} height={512} alt="Not Found" className="w-96" src="/404.svg" />
+                <a href="/" className="flex flex-row items-center gap-4 rounded-md bg-[#12372A] px-4 py-2 text-white">
+                    <ChevronLeft color="white" />
+                    <p className="font-bold">Back to home</p>
+                </a>
+            </div>
         </body>
     );
 }

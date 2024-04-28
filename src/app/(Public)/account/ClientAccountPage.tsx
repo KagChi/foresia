@@ -5,10 +5,11 @@ import { ChevronLeft, CloudUpload } from "lucide-react";
 import { createAccount, findAccount } from "../../../actions/Account";
 import toast from "react-hot-toast";
 import { pageSwitchingState, usePageSwitchingSnapshot } from "@/context/PageSwitching";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseAuth } from "@/lib/client.firebase";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { firebaseApp, firebaseAuth } from "@/lib/client.firebase";
 import * as SubmitButton from "@/components/SubmitButton";
 import { createSession } from "@/actions/Auth";
+import { deleteCookie } from "cookies-next";
 
 const Login = () => <>
     <div className="container flex w-full max-w-3xl flex-col items-center justify-center gap-2 p-10">
@@ -60,13 +61,14 @@ const Login = () => <>
                 </div>
             </div>
 
-            <div className="flex flex-row items-start">
+            <div className="flex flex-row items-start justify-between">
                 <p onClick={() => pageSwitchingState.set("register")} className="mt-auto cursor-pointer">Dont have account? <span className="underline">register now</span></p>
                 <SubmitButton.Secondary text="Login Now" />
             </div>
         </form>
     </div>
 </>;
+
 const Register = () => {
     const page = usePageSwitchingSnapshot();
 
@@ -121,7 +123,7 @@ const Register = () => {
                         </div>
                     </div>
 
-                    <div className="flex flex-row">
+                    <div className="flex flex-row justify-between">
                         <p onClick={() => pageSwitchingState.set("login")} className="mt-auto cursor-pointer">Already have an account? <span className="underline">Login now</span></p>
                         <SubmitButton.Secondary text="Register Now" />
                     </div>
@@ -130,6 +132,21 @@ const Register = () => {
         </>
     );
 };
+
+export const LogOut = () => <button
+    onClick={() => void getAuth(firebaseApp).signOut().then(() => {
+        deleteCookie("session");
+        toast.success("Successfully logged out!");
+        window.location.reload();
+    })
+        .catch(() => {
+            toast.success("There was an error while logging out");
+        })} className="mt-6 flex h-10 min-w-fit flex-row items-center justify-between gap-2 rounded-md bg-[#b32b2b] px-4 py-2 text-xs font-bold text-white hover:bg-[#b32b2b65] md:text-base">
+    <p className="flex flex-row items-center gap-4">
+                Log out
+    </p>
+</button>;
+
 
 export default function ClientAccountPage() {
     const page = usePageSwitchingSnapshot();

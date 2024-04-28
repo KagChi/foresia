@@ -1,6 +1,6 @@
 "use server";
 
-import ClientAccountPage from "./ClientAccountPage";
+import ClientAccountPage, { LogOut } from "./ClientAccountPage";
 import { ChevronLeft } from "lucide-react";
 import db from "@/db/drizzle";
 import { eq } from "drizzle-orm";
@@ -69,7 +69,11 @@ export default async function Account() {
                     </div>
                 </div>
 
-                <SubmitButton.Secondary text="Save Changes" />
+                <div className="flex flex-row justify-between">
+                    <LogOut />
+
+                    <SubmitButton.Secondary text="Save Changes" />
+                </div>
             </form>
         </div>
     );
