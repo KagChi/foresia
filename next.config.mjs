@@ -7,6 +7,11 @@ const nextConfig = {
                 hostname: '**.discordapp.com',
                 port: '',
             },
+            {
+                protocol: 'https',
+                hostname: 'ui-avatars.com',
+                port: '',
+            },
         ],
     },
     // Other configurations

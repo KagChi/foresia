@@ -62,8 +62,6 @@ export const Sidebar = ({ children, profile }: Readonly<{ children?: React.React
                             <a href="/create/community" className="font-medium text-gray-400">Create new community</a>
                             <a href="/create/post" className="font-medium text-gray-400">Create new post</a>
                             <a href="/popular" className="font-medium text-gray-400">Popular Subrealms</a>
-                            <a href="/account" className="font-medium text-gray-400">Manage Account</a>
-                            <a href="/settings" className="font-medium text-gray-400">Help & Settings</a>
                         </div>
                     </div>
 
