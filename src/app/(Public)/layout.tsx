@@ -89,7 +89,7 @@ export default function RootLayout({
                 </Sidebar>
             </div>
 
-            <div className="grow">{children}</div>
+            <div className="no-scrollbar h-screen grow overflow-y-auto">{children}</div>
         </body>
     );
 }

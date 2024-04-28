@@ -50,7 +50,8 @@ export const findAccount = async (props: FormData) => {
         const result = await db.select({
             email: User.email,
             username: User.username,
-            nick: User.nick
+            nick: User.nick,
+            avatar: User.avatar
         })
             .from(User)
             .where(
