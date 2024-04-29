@@ -10,7 +10,7 @@
     "lint:fix": "next lint --fix"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.564.0",
+    "@aws-sdk/client-s3": "^3.565.0",
     "@neondatabase/serverless": "^0.9.1",
     "cookies-next": "^4.1.1",
     "drizzle-orm": "^0.30.9",
