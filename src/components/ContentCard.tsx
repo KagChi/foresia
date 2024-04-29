@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 interface ContentCardProps {
     title: string;
     description: string;
-    image: string;
+    image?: string;
 
     avatar: string;
     user: string;
@@ -72,16 +72,20 @@ export const ContentCard = (props: ContentCardProps) => {
                     </span>
                 </p>
                 {
-                    fullscreenState && <>
-                        <div className="fixed inset-0 z-[90] overflow-y-auto backdrop-blur-sm">
-                            <CircleX className="absolute right-0 top-0 m-4 cursor-pointer text-white" size={32} onClick={() => setFullscreenState(false)} />
-                            <div className={"flex size-full items-center justify-center"}>
-                                <Image className="image-container h-2/3 w-3/5 object-contain" height={1920} width={1280} alt="Content" src={props.image} />
-                            </div>
-                        </div>
+                    props.image && <>
+                        {
+                            fullscreenState && <>
+                                <div className="fixed inset-0 z-[90] overflow-y-auto backdrop-blur-sm">
+                                    <CircleX className="absolute right-0 top-0 m-4 cursor-pointer text-white" size={32} onClick={() => setFullscreenState(false)} />
+                                    <div className={"flex size-full items-center justify-center"}>
+                                        <Image className="image-container h-2/3 w-3/5 object-contain" height={1920} width={1280} alt="Content" src={props.image} />
+                                    </div>
+                                </div>
+                            </>
+                        }
+                        <Image onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-48 rounded-lg object-cover md:h-[22rem]" alt="Content" src={props.image} />
                     </>
                 }
-                <Image onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-48 rounded-lg object-cover md:h-[22rem]" alt="Content" src={props.image} />
             </div>
         </div>
     );
