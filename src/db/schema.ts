@@ -41,7 +41,7 @@ export const Community = pgTable("community", {
     icon: varchar("icon"),
     banner: varchar("banner"),
 
-    owner_id: uuid("owner_id").notNull().references(() => User.id),
+    ownerId: uuid("owner_id").notNull().references(() => User.id),
 
     createdAt: createdAt("created_at"),
     updatedAt: updatedAt("updated_at")
