@@ -21,7 +21,7 @@ export default function RootLayout({
 
             <div className="shrink-0">
                 <Sidebar profile={<>
-                    <div className="mt-auto flex h-24 flex-row items-center justify-between bg-[#12372A65] px-3 py-4">
+                    <div className="flex h-24 flex-row items-center justify-between bg-[#12372A65] px-3 py-4">
                         <ProfileCardSidebar auth={auth} />
                     </div>
                 </>}>
