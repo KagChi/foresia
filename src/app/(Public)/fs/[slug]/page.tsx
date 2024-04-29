@@ -20,13 +20,13 @@ export default async function CommunityPage({ params }: { params: { slug: string
             <div className="container h-full max-w-5xl lg:mt-0 xl:py-4">
                 <div className="h-auto lg:relative">
                     {
-                        community.banner
+                        community.banner === null
                             ? <div className="relative h-48 xl:rounded-md">
-                                <Image className="h-48 object-cover  xl:rounded-md" alt="banner" height={1920} width={1280} src="https://cdn.discordapp.com/attachments/1174136474250248204/1234349898942517288/cd974e322efbf0a9de8a649fd11a947a.png?ex=6630696d&is=662f17ed&hm=1034d3456bac6af0b50f8db7a2e652f7810bee3c575b48028404fb9bcf953e28&" />
-                                <div className="absolute top-0 h-48 w-full bg-gradient-to-l from-[#1B1B1B] xl:rounded-md" />
+                                <Image className="h-48 object-cover xl:rounded-md" alt="banner" height={1920} width={1280} src="https://cdn.discordapp.com/attachments/1174136474250248204/1234349898942517288/cd974e322efbf0a9de8a649fd11a947a.png?ex=6630696d&is=662f17ed&hm=1034d3456bac6af0b50f8db7a2e652f7810bee3c575b48028404fb9bcf953e28&" />
+                                <div className="absolute top-0 h-48 w-full bg-gradient-to-b from-[#1B1B1B90] xl:rounded-md" />
                             </div>
                             : <div className="h-full bg-[#808080] xl:rounded-md">
-                                <div className="h-48 bg-gradient-to-l from-[#1B1B1B] xl:rounded-md" />
+                                <div className="h-48 xl:rounded-md" />
                             </div>
                     }
 
