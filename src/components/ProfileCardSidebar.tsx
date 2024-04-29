@@ -31,8 +31,8 @@ export const ProfileCardSidebar = ({ auth }: { auth: Auth }) => {
                                     <div className="h-4 w-12 rounded-md bg-[#1B1B1B70]" />
                                 </>
                                 : <>
-                                    <p className="line-clamp-1 text-sm font-bold md:text-base">{auth.user?.nick}</p>
-                                    <p className="-mt-3 text-xs md:text-sm">{auth.user?.username}</p>
+                                    <p className="line-clamp-1 truncate text-sm font-bold md:text-base">{auth.user?.nick}</p>
+                                    <p className="-mt-3 truncate text-xs md:text-sm">{auth.user?.username}</p>
                                 </>
                         }
                     </div>
