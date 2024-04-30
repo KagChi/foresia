@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 "use client";
 
+import { ownedCommunity } from "@/actions/Community";
 import { ProfileCardSidebar } from "@/components/ProfileCardSidebar";
 import { Sidebar } from "@/components/Sidebar";
 
 import { Baloo } from "@/constants/fonts";
 import { useAuthSnapshot } from "@/context/Auth";
+import { Community } from "@/db/schema";
 import { MessageCircleMore } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
@@ -13,7 +17,13 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const [communities, setCommunities] = useState<Omit<typeof Community.$inferSelect, "id" | "updatedAt">[] | null>(null);
     const auth = useAuthSnapshot();
+
+    useEffect(() => {
+        void ownedCommunity()
+            .then(x => setCommunities(x.data));
+    }, []);
 
     return (
         <body className={`${Baloo.className} flex h-full min-h-screen flex-row overflow-y-hidden`}>
@@ -25,19 +35,28 @@ export default function RootLayout({
                         <ProfileCardSidebar auth={auth} />
                     </div>
                 </>}>
-                    <div className="flex flex-col gap-4">
-                        <p className="flex items-center gap-2 text-lg font-bold text-white">
-                            <MessageCircleMore strokeWidth={3} />
-        My Communities
-                        </p>
-                        <div className="flex flex-col">
-                            <a href="/fs/askforesia" className="font-medium text-gray-400">fs/AskForesia</a>
-                            <a href="/fs/bluearchive" className="font-medium text-gray-400">fs/BlueArchive</a>
-                            <a href="/fs/darkmemes" className="font-medium text-gray-400">fs/DankMemes</a>
-                            <a href="/fs/indonesia" className="font-medium text-gray-400">fs/Indonesia</a>
-                            <a href="/fs/genshinimpact" className="font-medium text-gray-400">fs/GenshinImpact</a>
-                        </div>
-                    </div>
+                    {
+                        communities !== null && communities?.length >= 1 &&
+                            <div className="flex flex-col gap-4">
+                                <p className="flex items-center gap-2 text-lg font-bold text-white">
+                                    <MessageCircleMore strokeWidth={3} />
+                                            My Communities
+                                </p>
+                                <div className="flex flex-col">
+                                    {
+                                        communities.map(x => <>
+                                            <a href={`/fs/${x.name.toLowerCase()}`} className="font-medium text-gray-400">fs/{x.name}</a>
+                                        </>)
+                                    }
+                                </div>
+                            </div>
+                    }
+
+                    {
+                        communities === null && <>
+                            <div className="flex h-32 w-full animate-pulse flex-col gap-4 rounded-md bg-[#12372A65]" />
+                        </>
+                    }
                 </Sidebar>
             </div>
 

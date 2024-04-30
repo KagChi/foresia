@@ -34,7 +34,7 @@ export default async function CommunityPage({ params }: { params: { slug: string
                         <Image className="size-20 rounded-full bg-[#29252C] object-cover p-2 md:absolute md:top-32 md:size-28 lg:left-6" alt="banner" height={512} width={512} src={community.icon ? "" : `https://ui-avatars.com/api?name=${community.name}&format=webp`} />
                         <div className="text-white md:px-32 lg:px-0">
                             <p className="text-xl font-bold md:mt-10 md:text-3xl">fs/{community.name}</p>
-                            <p className="-mt-1 block text-sm lg:hidden">
+                            <p className="-mt-1 text-sm">
                                 400,000 Members
                             </p>
                         </div>

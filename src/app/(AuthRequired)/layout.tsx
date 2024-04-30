@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import { MessageCircleMore, Settings } from "lucide-react";
+import { ownedCommunity } from "@/actions/Community";
 
 export default async function RootLayout({
     children
@@ -23,6 +24,8 @@ export default async function RootLayout({
     const formData = new FormData();
     formData.set("user_or_email", firebaseUser.email);
     const user = await findAccount(formData);
+
+    const communities = await ownedCommunity(firebaseUser);
 
     return (
         <body className={`${Baloo.className} flex h-full min-h-screen flex-row overflow-x-hidden`}>
@@ -52,14 +55,14 @@ export default async function RootLayout({
                     <div className="flex flex-col gap-4">
                         <p className="flex items-center gap-2 text-lg font-bold text-white">
                             <MessageCircleMore strokeWidth={3} />
-        My Communities
+                                            My Communities
                         </p>
                         <div className="flex flex-col">
-                            <a href="/fs/askforesia" className="font-medium text-gray-400">fs/AskForesia</a>
-                            <a href="/fs/bluearchive" className="font-medium text-gray-400">fs/BlueArchive</a>
-                            <a href="/fs/darkmemes" className="font-medium text-gray-400">fs/DankMemes</a>
-                            <a href="/fs/indonesia" className="font-medium text-gray-400">fs/Indonesia</a>
-                            <a href="/fs/genshinimpact" className="font-medium text-gray-400">fs/GenshinImpact</a>
+                            {
+                                communities.data.map(x => <>
+                                    <a href={`/fs/${x.name.toLowerCase()}`} className="font-medium text-gray-400">fs/{x.name}</a>
+                                </>)
+                            }
                         </div>
                     </div>
                 </Sidebar>

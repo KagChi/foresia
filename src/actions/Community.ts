@@ -4,7 +4,8 @@ import { redirect } from "next/navigation";
 import { fetchSession } from "./Auth";
 import db from "@/db/drizzle";
 import { Community } from "@/db/schema";
-import { ilike } from "drizzle-orm";
+import { eq, ilike } from "drizzle-orm";
+import { DecodedIdToken } from "firebase-admin/auth";
 
 export interface Rule {
     text: string;
@@ -65,5 +66,37 @@ export const findCommunity = async (slug: string) => {
         console.error(e);
 
         return { data: null, message: "Failed to querying with unknown reason", success: false };
+    }
+};
+
+export const ownedCommunity = async (session?: DecodedIdToken | null | undefined) => {
+    try {
+        if (!session) {
+            session = await fetchSession();
+        }
+
+        const result = await db.select({
+            name: Community.name,
+            icon: Community.icon,
+            banner: Community.banner,
+            ownerId: Community.ownerId,
+            rules: Community.rules,
+            description: Community.description,
+            createdAt: Community.createdAt
+        })
+            .from(Community)
+            .where(
+                eq(
+                    Community.ownerId, session!.uid
+                )
+            )
+            .limit(5)
+            .then(x => x);
+
+        return { data: result, message: "Successfully find community!", success: true };
+    } catch (e: unknown) {
+        console.error(e);
+
+        return { data: [], message: "Failed to querying with unknown reason", success: false };
     }
 };
