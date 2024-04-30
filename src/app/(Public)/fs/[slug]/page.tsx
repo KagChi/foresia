@@ -54,7 +54,7 @@ export default async function CommunityPage({ params }: { params: { slug: string
                 </div>
 
                 <div className="relative mt-4 flex flex-col items-center gap-2 px-4 pb-4 md:px-6">
-                    <a href="/create/post" className="fixed bottom-4 right-4 z-50 flex items-center rounded-full bg-[#12372A] p-3">
+                    <a href={`/fs/${params.slug}/create/post`} className="fixed bottom-4 right-4 z-50 flex items-center rounded-full bg-[#12372A] p-3">
                         <PencilLine color="white" />
                     </a>
 
