@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { fetchSession } from "./Auth";
 import db from "@/db/drizzle";
-import { Community } from "@/db/schema";
+import { Community, User } from "@/db/schema";
 import { eq, ilike } from "drizzle-orm";
 import { DecodedIdToken } from "firebase-admin/auth";
 
@@ -48,16 +48,23 @@ export const findCommunity = async (slug: string) => {
             name: Community.name,
             icon: Community.icon,
             banner: Community.banner,
-            ownerId: Community.ownerId,
             rules: Community.rules,
             description: Community.description,
-            createdAt: Community.createdAt
+            createdAt: Community.createdAt,
+            author: {
+                username: User.username,
+                nick: User.nick,
+                avatar: User.avatar
+            }
         })
             .from(Community)
             .where(
                 ilike(
                     Community.name, slug
                 )
+            )
+            .leftJoin(
+                User, eq(Community.ownerId, User.id)
             )
             .then(x => x[0] ?? null);
 

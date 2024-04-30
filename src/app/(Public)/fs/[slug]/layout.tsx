@@ -3,6 +3,7 @@
 import { findCommunity } from "@/actions/Community";
 import { NotFound } from "@/components/NotFound";
 import ClientLayout from "./clientLayout";
+import { Community, User } from "@/db/schema";
 
 export default async function RootLayout({
     children,
@@ -13,7 +14,7 @@ export default async function RootLayout({
 }>) {
     const { data: community } = await findCommunity(params.slug);
 
-    if (!community) {
+    if (!community?.author) {
         return (
             <NotFound />
         );
@@ -21,7 +22,7 @@ export default async function RootLayout({
 
     return (
         <>
-            <ClientLayout community={community}>
+            <ClientLayout community={community as Omit<typeof Community.$inferSelect, "id" | "updatedAt" | "ownerId"> & { author: Pick<typeof User.$inferSelect, "avatar" | "nick" | "username"> }} params={params}>
                 {children}
             </ClientLayout>
         </>
