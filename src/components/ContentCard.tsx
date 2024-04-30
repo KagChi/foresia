@@ -85,7 +85,7 @@ export const DefaultContentCard = (props: ContentCardProps) => {
                                 </div>
                             </>
                         }
-                        <Image onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-full rounded-lg object-cover" alt="Content" src={props.image} />
+                        <Image onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-full rounded-lg object-contain" alt="Content" src={props.image} />
                     </>
                 }
             </div>
@@ -161,7 +161,7 @@ export const CommunityContentCard = (props: ContentCardProps) => {
                                 </div>
                             </>
                         }
-                        <Image onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-full rounded-lg object-cover" alt="Content" src={props.image} />
+                        <Image onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-full rounded-lg object-contain" alt="Content" src={props.image} />
                     </>
                 }
             </div>
