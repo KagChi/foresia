@@ -53,7 +53,7 @@ export default async function CommunityPage({ params }: { params: { slug: string
                     </div>
                 </div>
 
-                <div className="relative mt-4 flex flex-col items-center gap-2 px-4 md:px-6">
+                <div className="relative mt-4 flex flex-col items-center gap-2 px-4 pb-4 md:px-6">
                     <a href="/create/post" className="fixed bottom-4 right-4 z-50 flex items-center rounded-full bg-[#12372A] p-3">
                         <PencilLine color="white" />
                     </a>
@@ -76,7 +76,6 @@ export default async function CommunityPage({ params }: { params: { slug: string
                             description="She is the main mascot of Blue Archive, appearing as the figurehead on its website and social media. In addition to providing information and updates to Sensei, she also runs a series of videos called Arona Channel."
                         />
                     </div>
-
                 </div>
             </div>
         </>
