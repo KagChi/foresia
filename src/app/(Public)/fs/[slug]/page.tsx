@@ -18,7 +18,7 @@ export default async function CommunityPage({ params }: { params: { slug: string
     return (
         <>
             <div className="container h-full max-w-5xl lg:mt-0 xl:py-4">
-                <div className="h-auto lg:relative">
+                <div className="h-auto md:relative">
                     {
                         community.banner === null
                             ? <div className="relative h-48 xl:rounded-md">
@@ -30,9 +30,9 @@ export default async function CommunityPage({ params }: { params: { slug: string
                             </div>
                     }
 
-                    <div className="mt-4 flex flex-row items-center gap-4 px-4 md:mt-0 md:items-start md:gap-0 md:px-36">
-                        <Image className="size-20 rounded-full bg-[#29252C] object-cover p-2 md:absolute md:left-6 md:top-32 md:size-28" alt="banner" height={512} width={512} src={community.icon ? "" : `https://ui-avatars.com/api?name=${community.name}&format=webp`} />
-                        <div className="text-white">
+                    <div className="mt-4 flex flex-row items-center gap-4 px-4 md:mt-0 md:items-start md:gap-0 lg:px-36">
+                        <Image className="size-20 rounded-full bg-[#29252C] object-cover p-2 md:absolute lg:left-6 md:top-32 md:size-28" alt="banner" height={512} width={512} src={community.icon ? "" : `https://ui-avatars.com/api?name=${community.name}&format=webp`} />
+                        <div className="text-white md:px-32 lg:px-0">
                             <p className="text-xl font-bold md:mt-10 md:text-3xl">fs/{community.name}</p>
                             <p className="-mt-1 block text-sm lg:hidden">
                                 400,000 Members
