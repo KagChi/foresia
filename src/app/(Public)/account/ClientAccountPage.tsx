@@ -69,70 +69,63 @@ const Login = () => <>
     </div>
 </>;
 
-const Register = () => {
-    const page = usePageSwitchingSnapshot();
+const Register = () => <>
+    <div className="container flex w-full max-w-5xl flex-col items-center justify-center gap-2 p-4">
+        <form action={p => {
+            void createAccount(p).then(x => {
+                if (x.success) {
+                    toast.success(x.message);
+                    pageSwitchingState.set("login");
+                } else {
+                    toast.error(x.message);
+                }
+            });
+        }} className="flex w-full flex-col gap-4 rounded-md bg-[#1B1B1B] px-6 py-4 text-white md:w-4/5">
+            <a href="/" className="flex flex-row gap-4 py-2 md:items-center">
+                <ChevronLeft size={28} />
+                <p className="text-2xl font-bold">Register</p>
+            </a>
 
-    return (
-        <>
-            <div className="container flex w-full max-w-5xl flex-col items-center justify-center gap-2 p-4">
-                <form action={p => {
-                    void createAccount(p).then(x => {
-                        if (x.success) {
-                            toast.success(x.message);
-                            pageSwitchingState.set("login");
-                        } else {
-                            toast.error(x.message);
-                        }
-                    });
-                }} className="flex w-full flex-col gap-4 rounded-md bg-[#1B1B1B] px-6 py-4 text-white md:w-4/5">
-                    <a href="/" className="flex flex-row gap-4 py-2 md:items-center">
-                        <ChevronLeft size={28} />
-                        <p className="text-2xl font-bold">Register</p>
-                    </a>
+            <div className="h-0.5 w-full rounded bg-white opacity-10" />
 
-                    <div className="h-0.5 w-full rounded bg-white opacity-10" />
+            <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 text-white">
+                    <p className="text-lg font-semibold">Username</p>
+                    <input required name="username" className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                </div>
 
-                    <div className="flex flex-col gap-2">
-                        <div className="flex flex-col gap-2 text-white">
-                            <p className="text-lg font-semibold">Username</p>
-                            <input required name="username" className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
-                        </div>
+                <div className="flex flex-col gap-2 text-white">
+                    <p className="text-lg font-semibold">Nickname</p>
+                    <input required name="displayName" className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                </div>
 
-                        <div className="flex flex-col gap-2 text-white">
-                            <p className="text-lg font-semibold">Nickname</p>
-                            <input required name="displayName" className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
-                        </div>
+                <div className="flex flex-col gap-2 text-white">
+                    <p className="text-lg font-semibold">Email</p>
+                    <input required type="email" name="email" className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                </div>
 
-                        <div className="flex flex-col gap-2 text-white">
-                            <p className="text-lg font-semibold">Email</p>
-                            <input required type="email" name="email" className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
-                        </div>
+                <div className="flex flex-col gap-2 text-white">
+                    <p className="text-lg font-semibold">Password</p>
+                    <input required type="password" name="password" className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
+                </div>
 
-                        <div className="flex flex-col gap-2 text-white">
-                            <p className="text-lg font-semibold">Password</p>
-                            <input required type="password" name="password" className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
-                        </div>
-
-                        <div className="flex flex-col gap-2 text-white">
-                            <p className="text-2xl font-semibold">Avatar</p>
-                            <input accept="image/jpeg, image/jpg, image/webp, image/gif" id="avatar" type="file" hidden />
-                            <button type="button" onClick={() => document.getElementById("avatar")?.click()} className="flex w-full flex-row items-center justify-between gap-2 rounded-md bg-[#12372A40] px-4 py-2 md:w-fit">
-                                <p>Upload Avatar</p>
-                                <CloudUpload />
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-row justify-between">
-                        <p onClick={() => pageSwitchingState.set("login")} className="mt-auto cursor-pointer">Already have an account? <span className="underline">Login now</span></p>
-                        <SubmitButton.Secondary text="Register Now" />
-                    </div>
-                </form>
+                <div className="flex flex-col gap-2 text-white">
+                    <p className="text-2xl font-semibold">Avatar</p>
+                    <input accept="image/jpeg, image/jpg, image/webp, image/gif" id="avatar" type="file" hidden />
+                    <button type="button" onClick={() => document.getElementById("avatar")?.click()} className="flex w-full flex-row items-center justify-between gap-2 rounded-md bg-[#12372A40] px-4 py-2 md:w-fit">
+                        <p>Upload Avatar</p>
+                        <CloudUpload />
+                    </button>
+                </div>
             </div>
-        </>
-    );
-};
 
+            <div className="flex flex-row justify-between">
+                <p onClick={() => pageSwitchingState.set("login")} className="mt-auto cursor-pointer">Already have an account? <span className="underline">Login now</span></p>
+                <SubmitButton.Secondary text="Register Now" />
+            </div>
+        </form>
+    </div>
+</>;
 export const LogOut = () => <button
     onClick={() => void getAuth(firebaseApp).signOut().then(() => {
         deleteCookie("session");
