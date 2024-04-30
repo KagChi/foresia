@@ -59,8 +59,8 @@ export default async function RootLayout({
                         </p>
                         <div className="flex flex-col">
                             {
-                                communities.data.map(x => <>
-                                    <a href={`/fs/${x.name.toLowerCase()}`} className="font-medium text-gray-400">fs/{x.name}</a>
+                                communities.data.map((x, i) => <>
+                                    <a key={i} href={`/fs/${x.name.toLowerCase()}`} className="font-medium text-gray-400">fs/{x.name}</a>
                                 </>)
                             }
                         </div>

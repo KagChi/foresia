@@ -1,19 +1,12 @@
-"use server";
+"use client";
 
-import { findCommunity } from "@/actions/Community";
 import { ContentCard } from "@/components/ContentCard";
-import { NotFound } from "@/components/NotFound";
+import { useCommunity } from "@/context/Community";
 import { PencilLine } from "lucide-react";
 import Image from "next/image";
 
-export default async function CommunityPage({ params }: { params: { slug: string } }) {
-    const { data: community } = await findCommunity(params.slug);
-
-    if (!community) {
-        return (
-            <NotFound />
-        );
-    }
+export default function CommunityPage({ params }: { params: { slug: string } }) {
+    const community = useCommunity()!;
 
     return (
         <>
