@@ -1,7 +1,7 @@
 "use client";
 
+import { FindCommunityResult } from "@/actions/Community";
 import { CommunityContext } from "@/context/Community";
-import { Community, User } from "@/db/schema";
 import { PencilLine } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,7 +13,7 @@ export default function ClientLayout({
     params
 }: Readonly<{
     children: React.ReactNode;
-    community: Omit<typeof Community.$inferSelect, "id" | "updatedAt" | "ownerId"> & { author: Pick<typeof User.$inferSelect, "avatar" | "nick" | "username"> };
+    community: FindCommunityResult;
     params: { slug: string };
 }>) {
     const pathname = usePathname();

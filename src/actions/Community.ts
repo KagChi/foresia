@@ -42,7 +42,9 @@ export const createCommunity = async (props: FormData) => {
     }
 };
 
-export const findCommunity = async (slug: string) => {
+export type FindCommunityResult = Omit<typeof Community.$inferSelect, "id" | "updatedAt" | "ownerId"> & { author: Pick<typeof User.$inferSelect, "avatar" | "nick" | "username"> };
+
+export const findCommunity = async (slug: string): Promise<{ data: FindCommunityResult | null; message: string; success: boolean }> => {
     try {
         const result = await db.select({
             name: Community.name,
@@ -68,7 +70,7 @@ export const findCommunity = async (slug: string) => {
             )
             .then(x => x[0] ?? null);
 
-        return { data: result, message: "Successfully find community!", success: true };
+        return { data: result as FindCommunityResult, message: "Successfully find community!", success: true };
     } catch (e: unknown) {
         console.error(e);
 
