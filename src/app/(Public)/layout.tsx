@@ -44,8 +44,8 @@ export default function RootLayout({
                                 </p>
                                 <div className="flex flex-col">
                                     {
-                                        communities.map(x => <>
-                                            <a href={`/fs/${x.name.toLowerCase()}`} className="font-medium text-gray-400">fs/{x.name}</a>
+                                        communities.map((x, i) => <>
+                                            <a key={i} href={`/fs/${x.name.toLowerCase()}`} className="font-medium text-gray-400">fs/{x.name}</a>
                                         </>)
                                     }
                                 </div>
