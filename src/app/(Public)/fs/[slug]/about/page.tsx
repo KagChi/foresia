@@ -17,6 +17,13 @@ export default function CommunityPage() {
                         </p>
                     </div>
 
+                    <div className="px-6 py-4">
+                        <p className="text-xl font-bold uppercase text-white">Community Rules</p>
+                        {
+                            community.rules.map((x, i) => <p key={i} className="ml-1 text-white">{i + 1}. {x}</p>)
+                        }
+                    </div>
+
                     <div className="h-0.5 w-full rounded bg-white opacity-10" />
 
                     <div className="flex flex-col gap-2 px-6 py-4 text-white">
