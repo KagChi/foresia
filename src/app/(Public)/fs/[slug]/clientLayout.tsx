@@ -18,6 +18,14 @@ export default function ClientLayout({
 }>) {
     const pathname = usePathname();
 
+    if (pathname.includes("create")) {
+        return (
+            <CommunityContext.Provider value={community}>
+                {children}
+            </CommunityContext.Provider>
+        );
+    }
+
     return (
         <>
             <CommunityContext.Provider value={community}>

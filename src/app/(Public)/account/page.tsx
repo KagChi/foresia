@@ -27,8 +27,8 @@ export default async function Account() {
         .then(x => x[0]);
 
     return (
-        <div className="container flex w-full max-w-3xl flex-col items-center justify-center gap-2 p-10">
-            <form className="flex w-full flex-col gap-4 rounded-md bg-[#1B1B1B] px-6 py-4 text-white">
+        <div className="container flex w-full max-w-5xl flex-col items-center justify-center gap-2 p-4">
+            <form className="flex w-full flex-col gap-4 rounded-md bg-[#1B1B1B] px-6 py-4 text-white md:w-4/5">
                 <a href="/" className="flex flex-row gap-4 py-2 md:items-center">
                     <ChevronLeft size={28} />
                     <p className="text-2xl font-bold">Profile Info</p>

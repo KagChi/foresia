@@ -47,3 +47,29 @@ export const Community = pgTable("community", {
     updatedAt: updatedAt("updated_at")
 });
 
+export const CommunityPost = pgTable("community_post", {
+    id: uuid("id").primaryKey().defaultRandom(),
+
+    title: varchar("title").notNull(),
+    message: varchar("message"),
+    image: varchar("image"),
+
+    communityId: uuid("community_id").notNull().references(() => Community.id),
+    userId: uuid("owner_id").notNull().references(() => User.id),
+
+    createdAt: createdAt("created_at"),
+    updatedAt: updatedAt("updated_at")
+});
+
+export const CommunityPostComment = pgTable("community_post_comment", {
+    id: uuid("id").primaryKey().defaultRandom(),
+
+    message: varchar("message"),
+
+    communityId: uuid("community_id").notNull().references(() => Community.id),
+    userId: uuid("owner_id").notNull().references(() => User.id),
+
+    createdAt: createdAt("created_at"),
+    updatedAt: updatedAt("updated_at")
+});
+
