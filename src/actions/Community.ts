@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { fetchSession } from "./Auth";
 import db from "@/db/drizzle";
 import { Community, CommunityPost, User } from "@/db/schema";
-import { asc, eq, ilike } from "drizzle-orm";
+import { desc, eq, ilike } from "drizzle-orm";
 import { DecodedIdToken } from "firebase-admin/auth";
 
 export interface Rule {
@@ -99,7 +99,7 @@ export const createCommunityPost = async (props: FormData, community: string, se
             )
             .then(x => x[0] ?? null);
 
-        await db.insert(CommunityPost)
+        const postResult = await db.insert(CommunityPost)
             .values({
                 title: props.get("title") as string,
                 message: props.get("message") as string | null,
@@ -109,9 +109,10 @@ export const createCommunityPost = async (props: FormData, community: string, se
                     .replace(/ +/g, "-"),
                 communityId: result.id,
                 userId: session.uid
-            });
+            })
+            .returning({ slug: CommunityPost.slug });
 
-        return { message: "Success created post!", success: true };
+        return { data: postResult[0].slug, message: "Success created post!", success: true };
     } catch (e: unknown) {
         console.error(e);
 
@@ -190,7 +191,7 @@ export const communityPost = async (slug: string) => {
         })
             .from(CommunityPost)
             .orderBy(
-                asc(CommunityPost.updatedAt)
+                desc(CommunityPost.updatedAt)
             )
             .where(
                 eq(
@@ -231,7 +232,7 @@ export const feedCommunityPost = async () => {
         })
             .from(CommunityPost)
             .orderBy(
-                asc(CommunityPost.updatedAt)
+                desc(CommunityPost.createdAt)
             )
             .leftJoin(
                 User, eq(CommunityPost.userId, User.id)

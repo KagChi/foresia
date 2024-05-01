@@ -2,12 +2,19 @@
 
 import { createCommunityPost } from "@/actions/Community";
 import * as SubmitButton from "@/components/SubmitButton";
+import { useAuthSnapshot } from "@/context/Auth";
 import { ChevronLeft, CloudUpload, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 export default function Create({ params }: { params: { slug: string } }) {
     const router = useRouter();
+
+    const auth = useAuthSnapshot();
+
+    if (!auth.loading && !auth.firebaseUser && !auth.user) {
+        return router.push("/account");
+    }
 
     return (
         <div className="container flex w-full max-w-5xl flex-col items-center justify-center gap-2 p-4">
@@ -19,10 +26,9 @@ export default function Create({ params }: { params: { slug: string } }) {
             <form action={p => {
                 void createCommunityPost(p, params.slug)
                     .then(x => {
-                        if (x.success) {
+                        if (x.success && x.data) {
                             toast.success(x.message);
-                            // TODO: Redirect to their post slug.
-                            router.push(`/fs/${params.slug}`);
+                            router.push(`/fs/${params.slug}/posts/${x.data}`);
                         } else {
                             toast.error(x.message);
 
