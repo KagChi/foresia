@@ -10,6 +10,8 @@ import Image from "next/image";
 import { MessageCircleMore, Settings } from "lucide-react";
 import { ownedCommunity } from "@/actions/Community";
 
+export const fetchCache = "force-no-store";
+
 export default async function RootLayout({
     children
 }: Readonly<{

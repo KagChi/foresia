@@ -13,7 +13,7 @@ interface ContentCardProps {
     user: string;
     community: string;
 
-    // href: string;
+    slug: string;
 }
 
 export const DefaultContentCard = (props: ContentCardProps) => {
@@ -35,7 +35,7 @@ export const DefaultContentCard = (props: ContentCardProps) => {
     }, [fullscreenState]);
 
     return (
-        <div className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4">
+        <a href={`/fs/${props.community.toLowerCase()}/posts/${props.slug}`} className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4">
             <div className="flex h-10 flex-row items-center justify-between">
                 <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-sm text-white md:text-lg">
                     <ChevronUp strokeWidth={3} color="#5da35d" />
@@ -89,7 +89,7 @@ export const DefaultContentCard = (props: ContentCardProps) => {
                     </>
                 }
             </div>
-        </div>
+        </a>
     );
 };
 
@@ -112,7 +112,7 @@ export const CommunityContentCard = (props: ContentCardProps) => {
     }, [fullscreenState]);
 
     return (
-        <div className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4">
+        <div href={`/fs/${props.community.toLowerCase()}/posts/${props.slug}`} className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4">
             <div className="flex h-10 flex-row items-center justify-between">
                 <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-sm text-white md:text-lg">
                     <ChevronUp strokeWidth={3} color="#5da35d" />
