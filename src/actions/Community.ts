@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { fetchSession } from "./Auth";
 import db from "@/db/drizzle";
-import { Community, CommunityPost, User } from "@/db/schema";
+import { Community, CommunityPost, CommunityPostComment, User } from "@/db/schema";
 import { desc, eq, ilike } from "drizzle-orm";
 import { DecodedIdToken } from "firebase-admin/auth";
 
@@ -158,7 +158,7 @@ export const ownedCommunity = async (session?: DecodedIdToken | null | undefined
     }
 };
 
-export type FindCommunityPostResult = Pick<typeof CommunityPost.$inferSelect, "slug" | "title" | "message"> & {
+export type FindCommunityPostResult = Pick<typeof CommunityPost.$inferSelect, "slug" | "title" | "message" | "createdAt"> & {
     author: Pick<typeof User.$inferSelect, "nick" | "username" | "avatar">;
     community: Pick<typeof Community.$inferSelect, "name">;
 };
@@ -180,6 +180,7 @@ export const communityPost = async (slug: string) => {
             slug: CommunityPost.slug,
             title: CommunityPost.title,
             message: CommunityPost.message,
+            createdAt: CommunityPost.createdAt,
             author: {
                 nick: User.nick,
                 username: User.username,
@@ -221,6 +222,7 @@ export const feedCommunityPost = async () => {
             slug: CommunityPost.slug,
             title: CommunityPost.title,
             message: CommunityPost.message,
+            createdAt: CommunityPost.createdAt,
             author: {
                 nick: User.nick,
                 username: User.username,
@@ -248,5 +250,123 @@ export const feedCommunityPost = async () => {
         console.error(e);
 
         return { data: [], message: "Failed to querying with unknown reason", success: false };
+    }
+};
+
+export const findCommunityPost = async (slug: string) => {
+    try {
+        const result = await db.select({
+            slug: CommunityPost.slug,
+            title: CommunityPost.title,
+            message: CommunityPost.message,
+            createdAt: CommunityPost.createdAt,
+            author: {
+                nick: User.nick,
+                username: User.username,
+                avatar: User.avatar
+            },
+            community: {
+                name: Community.name
+            }
+        })
+            .from(CommunityPost)
+            .where(
+                ilike(
+                    CommunityPost.slug, slug
+                )
+            )
+            .leftJoin(
+                User, eq(CommunityPost.userId, User.id)
+            )
+            .leftJoin(
+                Community, eq(CommunityPost.communityId, Community.id)
+            )
+            .then(x => x[0] ?? null);
+
+        return { data: result as FindCommunityPostResult | null, message: "Successfully find community post!", success: true };
+    } catch (e: unknown) {
+        console.error(e);
+
+        return { data: null, message: "Failed to querying with unknown reason", success: false };
+    }
+};
+
+export type FindCommunityPostCommentResult = Pick<typeof CommunityPostComment.$inferSelect, "message" | "createdAt"> & {
+    author: Pick<typeof User.$inferSelect, "nick" | "username" | "avatar">;
+};
+
+export const findCommunityPostComment = async (slug: string) => {
+    try {
+        const communityPostResult = await db.select({
+            id: CommunityPost.id
+        })
+            .from(CommunityPost)
+            .where(
+                ilike(
+                    CommunityPost.slug, slug
+                )
+            )
+            .then(x => x[0] ?? null);
+
+        const result = await db.select({
+            message: CommunityPostComment.message,
+            createdAt: CommunityPostComment.createdAt,
+            author: {
+                nick: User.nick,
+                username: User.username,
+                avatar: User.avatar
+            }
+        })
+            .from(CommunityPostComment)
+            .where(
+                eq(
+                    CommunityPostComment.postId, communityPostResult.id
+                )
+            )
+            .leftJoin(
+                User, eq(CommunityPostComment.userId, User.id)
+            );
+
+        return { data: result as FindCommunityPostCommentResult[], message: "Successfully find community post comment!", success: true };
+    } catch (e: unknown) {
+        console.error(e);
+
+        return { data: [], message: "Failed to querying with unknown reason", success: false };
+    }
+};
+
+export const postComment = async (props: FormData, slug: string, session?: DecodedIdToken | null | undefined) => {
+    try {
+        if (!session) {
+            session = await fetchSession();
+        }
+
+        if (!session) {
+            return { message: "Not authenticated!", success: false };
+        }
+
+        const postResult = await db.select({
+            id: CommunityPost.id
+        })
+            .from(CommunityPost)
+            .where(
+                ilike(
+                    CommunityPost.slug, slug
+                )
+            )
+            .then(x => x[0] ?? null);
+
+        await db.insert(CommunityPostComment)
+            .values({
+                postId: postResult.id,
+                userId: session.uid,
+                message: props.get("message") as string
+            });
+
+        return { message: "Successfully posted comment!", success: true };
+    } catch (e: unknown) {
+        console.error(e);
+
+        return { data: null, message: "Failed to querying with unknown reason", success: false };
     }
 };

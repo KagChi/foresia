@@ -12,6 +12,7 @@ export default async function CommunityPage({ params }: { params: { slug: string
                 {posts.data.length >= 1 &&
                     posts.data.map((x, i) => <DefaultContentCard
                         key={i}
+                        createdAt={x.createdAt}
                         slug={x.slug}
                         user={x.author.nick}
                         community={x.community.name}

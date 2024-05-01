@@ -1,5 +1,6 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 "use client";
+import { timeSince } from "@/app/util/parseDate";
 import { ChevronUp, ChevronDown, MessageSquareMore, Share2, CircleX } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,6 +16,7 @@ interface ContentCardProps {
     community: string;
 
     slug: string;
+    createdAt: string | Date;
 }
 
 export const DefaultContentCard = (props: ContentCardProps) => {
@@ -62,7 +64,14 @@ export const DefaultContentCard = (props: ContentCardProps) => {
                         props.avatar ? <div className="size-10 rounded-full bg-[#1B1B1B]" /> : <Image width={512} height={512} alt="Avatar" className="size-10 rounded-full" src={`${props.avatar ? "" : `https://ui-avatars.com/api?name=${props.user}&format=webp`}`} />
                     }
                     <p className="flex flex-col text-white">
-                        <span className="font-bold">fs/{props.community}</span>
+                        <span className="flex flex-row gap-3">
+                            <span className="font-bold">fs/{props.community}</span>
+
+                            <span className="flex flex-row gap-3 text-gray-500">
+                                <span>•</span>
+                                <span>{timeSince(props.createdAt)}</span>
+                            </span>
+                        </span>
                         <span className="-mt-1 text-gray-400">Posted by {props.user}</span>
                     </p>
                 </div>
