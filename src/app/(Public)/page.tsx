@@ -7,7 +7,7 @@ export default async function Home() {
     return (
         <>
             <div className="container relative flex flex-col items-center gap-2 p-10">
-                <div className="flex max-w-3xl flex-col gap-4">
+                <div className="flex w-full max-w-3xl flex-col gap-4">
                     <>
                         {posts.data.length >= 1 &&
                             posts.data.map((x, i) => <DefaultContentCard

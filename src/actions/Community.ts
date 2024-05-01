@@ -42,9 +42,9 @@ export const createCommunity = async (props: FormData) => {
     }
 };
 
-export type FindCommunityResult = Omit<typeof Community.$inferSelect, "id" | "updatedAt" | "ownerId"> & { author: Pick<typeof User.$inferSelect, "avatar" | "nick" | "username"> };
+export type FindCommunityResult = Omit<typeof Community.$inferSelect, "updatedAt" | "ownerId"> & { author: Pick<typeof User.$inferSelect, "avatar" | "nick" | "username"> };
 
-export const findCommunity = async (slug: string): Promise<{ data: FindCommunityResult | null; message: string; success: boolean }> => {
+export const findCommunity = async (slug: string, withUserId?: boolean): Promise<{ data: FindCommunityResult | null; message: string; success: boolean }> => {
     try {
         const result = await db.select({
             name: Community.name,
@@ -53,11 +53,18 @@ export const findCommunity = async (slug: string): Promise<{ data: FindCommunity
             rules: Community.rules,
             description: Community.description,
             createdAt: Community.createdAt,
-            author: {
-                username: User.username,
-                nick: User.nick,
-                avatar: User.avatar
-            }
+            author: withUserId
+                ? {
+                    id: User.id,
+                    username: User.username,
+                    nick: User.nick,
+                    avatar: User.avatar
+                }
+                : {
+                    username: User.username,
+                    nick: User.nick,
+                    avatar: User.avatar
+                }
         })
             .from(Community)
             .where(
@@ -368,5 +375,28 @@ export const postComment = async (props: FormData, slug: string, session?: Decod
         console.error(e);
 
         return { data: null, message: "Failed to querying with unknown reason", success: false };
+    }
+};
+
+export const deleteCommunity = async (name: string, session?: DecodedIdToken | null | undefined) => {
+    try {
+        if (!session) {
+            session = await fetchSession();
+        }
+
+        if (!session) {
+            return { message: "Not authenticated!", success: false };
+        }
+
+        await db.delete(Community)
+            .where(
+                ilike(Community.name, name)
+            );
+
+        return { message: "Successfully deleted community!", success: true };
+    } catch (e: unknown) {
+        console.error(e);
+
+        return { message: "Failed to querying with unknown reason", success: false };
     }
 };

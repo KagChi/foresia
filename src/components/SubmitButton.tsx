@@ -51,7 +51,7 @@ const Danger: React.FC<SubmitButtonProps> = ({ text, icon, roundedStyle }) => {
     const { pending } = useFormStatus();
 
     return (
-        <button type="submit" disabled={pending} className={`${pending ? "cursor-no-drop bg-[#b32b2b65]" : "cursor-pointer bg-[#b32b2b]"} mt-6 flex h-10 min-w-fit flex-row items-center justify-between gap-2 ${roundedStyle ?? "rounded-md"} px-4 py-2 text-xs font-bold text-white hover:bg-[#b32b2b] md:text-base`}>
+        <button type="submit" disabled={pending} className={`${pending ? "cursor-no-drop bg-[#b32b2b65]" : "cursor-pointer bg-[#b32b2b]"} mt-6 flex h-10 min-w-fit flex-row items-center justify-between gap-2 ${roundedStyle ?? "rounded-md"} px-4 py-2 text-xs font-bold text-white hover:bg-[#b32b2b60] md:text-base`}>
             {
                 pending
                     ? <LoaderCircle className="animate-spin" />

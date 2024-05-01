@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthSnapshot } from "@/context/Auth";
 import { useCommunity } from "@/context/Community";
 import { PencilLine } from "lucide-react";
 import Image from "next/image";
@@ -15,6 +16,7 @@ export default function ClientLayout({
 }>) {
     const pathname = usePathname();
     const community = useCommunity()!;
+    const auth = useAuthSnapshot();
 
     return (
         <>
@@ -54,6 +56,12 @@ export default function ClientLayout({
                         <Link href={`/fs/${params.slug}/about`} className={`rounded-full ${pathname === `/fs/${params.slug}/about` ? "bg-[#1B1B1B] font-bold" : "hover:bg-[#1B1B1B]"} px-4 py-2 font-bold text-white`}>
                                 About
                         </Link>
+
+                        {
+                            !auth.loading && auth.firebaseUser && auth.firebaseUser.displayName === community.author.nick && <Link href={`/fs/${params.slug}/settings`} className={`rounded-full ${pathname === `/fs/${params.slug}/settings` ? "bg-[#1B1B1B] font-bold" : "hover:bg-[#1B1B1B]"} px-4 py-2 font-bold text-white`}>
+                                    Settings
+                            </Link>
+                        }
                     </div>
                 </div>
 
