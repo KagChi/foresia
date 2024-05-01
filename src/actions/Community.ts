@@ -210,3 +210,36 @@ export const communityPost = async (slug: string) => {
         return { data: [], message: "Failed to querying with unknown reason", success: false };
     }
 };
+
+export const feedCommunityPost = async () => {
+    try {
+        const result = await db.select({
+            slug: CommunityPost.slug,
+            title: CommunityPost.title,
+            message: CommunityPost.message,
+            author: {
+                nick: User.nick,
+                username: User.username,
+                avatar: User.avatar
+            },
+            community: {
+                name: Community.name
+            }
+        })
+            .from(CommunityPost)
+            .leftJoin(
+                User, eq(CommunityPost.userId, User.id)
+            )
+            .leftJoin(
+                Community, eq(CommunityPost.communityId, Community.id)
+            )
+            .limit(5)
+            .then(x => x);
+
+        return { data: result as FindCommunityPostResult[], message: "Successfully find community post!", success: true };
+    } catch (e: unknown) {
+        console.error(e);
+
+        return { data: [], message: "Failed to querying with unknown reason", success: false };
+    }
+};

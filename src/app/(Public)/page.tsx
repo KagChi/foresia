@@ -1,27 +1,30 @@
+import { feedCommunityPost } from "@/actions/Community";
 import { DefaultContentCard } from "@/components/ContentCard";
 
-export default function Home() {
+export default async function Home() {
+    const posts = await feedCommunityPost();
+
     return (
         <>
             <div className="container relative flex flex-col items-center gap-2 p-10">
                 <div className="flex max-w-3xl flex-col gap-4">
-                    <DefaultContentCard
-                        user="ArkanDash"
-                        community="AskForesia"
-                        image="https://cdn.discordapp.com/attachments/1174136474250248204/1231795766776041534/th.png?ex=66384234&is=6625cd34&hm=01c577b8c91847fe94d93f8c5a3055993ba38dd9b73a4f808739341418b300a8&"
-                        title="Why does KannaChan is a Cute characters?"
-                        description="Kanna Kamui (神凪 カンナ, Kanna Kamui) is a young dragon girl from the world of dragons who becomes Miss Kobayashi adopted daughter.
-                                    Kanna has long, white hair with a distinctive ahoge (a single strand of hair that sticks up) and bright blue eyes.
-                                    She often wears a school uniform or a casual outfit with a tail accessory. In her dragon form, she has white scales and powerful wings."
-                    />
+                    <>
+                        {posts.data.length >= 1 &&
+                            posts.data.map((x, i) => <DefaultContentCard
+                                key={i}
+                                user={x.author.nick}
+                                community={x.community.name}
+                                title={x.title}
+                                description={x.message ? `${x.message.length >= 521 ? `${x.message.slice(0, 520)}...` : x.message}` : ""}
+                            />)
+                        }
 
-                    <DefaultContentCard
-                        user="ArkanDash"
-                        community="BlueArchive"
-                        image="https://cdn.discordapp.com/attachments/1174136474250248204/1231799616253722757/artwork.png?ex=663845ca&is=6625d0ca&hm=4fd68774b50b025129bf4a23bfe03c7bbaad99e104aeab24af25dfc8c21056b6&&w=1920&q=75"
-                        title="Why does Arisu is a Cute characters?"
-                        description="Student of Millennium and member of the Game development club. She was found sleeping inside some ruins. Everything about her is unknown, including her age. Currently, she enjoys playing videogames with Momoi, Midori and Yuzu and has become a serious game maniac. Because she picks up lines from retro games, her speech tends to be hesitant and unnatural."
-                    />
+                        {
+                            posts.data.length <= 0 && <>
+                                <p className="mt-4 px-2 text-lg text-white">Its so quite here... create post now!</p>
+                            </>
+                        }
+                    </>
                 </div>
             </div>
         </>
