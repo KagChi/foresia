@@ -41,7 +41,7 @@ export const Community = pgTable("community", {
     icon: varchar("icon"),
     banner: varchar("banner"),
 
-    ownerId: uuid("owner_id").notNull().references(() => User.id),
+    ownerId: uuid("owner_id").notNull().references(() => User.id, { onDelete: "cascade" }),
 
     createdAt: createdAt("created_at"),
     updatedAt: updatedAt("updated_at")
@@ -56,8 +56,8 @@ export const CommunityPost = pgTable("community_post", {
     message: varchar("message"),
     image: varchar("image"),
 
-    communityId: uuid("community_id").notNull().references(() => Community.id),
-    userId: uuid("user_id").notNull().references(() => User.id),
+    communityId: uuid("community_id").notNull().references(() => Community.id, { onDelete: "cascade" }),
+    userId: uuid("user_id").notNull().references(() => User.id, { onDelete: "cascade" }),
 
     createdAt: createdAt("created_at"),
     updatedAt: updatedAt("updated_at")
@@ -68,8 +68,8 @@ export const CommunityPostComment = pgTable("community_post_comment", {
 
     message: varchar("message").notNull(),
 
-    postId: uuid("post_id").notNull().references(() => CommunityPost.id),
-    userId: uuid("user_id").notNull().references(() => User.id),
+    postId: uuid("post_id").notNull().references(() => CommunityPost.id, { onDelete: "cascade" }),
+    userId: uuid("user_id").notNull().references(() => User.id, { onDelete: "cascade" }),
 
     createdAt: createdAt("created_at"),
     updatedAt: updatedAt("updated_at")
