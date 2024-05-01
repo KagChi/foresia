@@ -50,12 +50,14 @@ export const Community = pgTable("community", {
 export const CommunityPost = pgTable("community_post", {
     id: uuid("id").primaryKey().defaultRandom(),
 
+    slug: varchar("slug").unique().notNull(),
+
     title: varchar("title").notNull(),
     message: varchar("message"),
     image: varchar("image"),
 
     communityId: uuid("community_id").notNull().references(() => Community.id),
-    userId: uuid("owner_id").notNull().references(() => User.id),
+    userId: uuid("user_id").notNull().references(() => User.id),
 
     createdAt: createdAt("created_at"),
     updatedAt: updatedAt("updated_at")
@@ -67,7 +69,7 @@ export const CommunityPostComment = pgTable("community_post_comment", {
     message: varchar("message"),
 
     communityId: uuid("community_id").notNull().references(() => Community.id),
-    userId: uuid("owner_id").notNull().references(() => User.id),
+    userId: uuid("user_id").notNull().references(() => User.id),
 
     createdAt: createdAt("created_at"),
     updatedAt: updatedAt("updated_at")

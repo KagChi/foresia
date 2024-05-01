@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { fetchSession } from "./Auth";
 import db from "@/db/drizzle";
-import { Community, User } from "@/db/schema";
+import { Community, CommunityPost, User } from "@/db/schema";
 import { eq, ilike } from "drizzle-orm";
 import { DecodedIdToken } from "firebase-admin/auth";
 
@@ -78,6 +78,53 @@ export const findCommunity = async (slug: string): Promise<{ data: FindCommunity
     }
 };
 
+export const createCommunityPost = async (props: FormData, community: string, session?: DecodedIdToken | null | undefined) => {
+    try {
+        if (!session) {
+            session = await fetchSession();
+        }
+
+        if (!session) {
+            return { message: "Not authenticated!", success: false };
+        }
+
+        const result = await db.select({
+            id: Community.id
+        })
+            .from(Community)
+            .where(
+                ilike(
+                    Community.name, community
+                )
+            )
+            .then(x => x[0] ?? null);
+
+        await db.insert(CommunityPost)
+            .values({
+                title: props.get("title") as string,
+                message: props.get("message") as string | null,
+                slug: (props.get("title") as string)
+                    .toLowerCase()
+                    .replace(/[^\w ]+/g, "")
+                    .replace(/ +/g, "-"),
+                communityId: result.id,
+                userId: session.uid
+            });
+
+        return { message: "Success created post!", success: true };
+    } catch (e: unknown) {
+        console.error(e);
+
+        if (e && typeof e === "object" && "message" in e && typeof e.message === "string") {
+            if (e.message.includes("slug")) {
+                return { message: "Please try other post title !", success: false };
+            }
+        }
+
+        return { message: "Failed to querying with unknown reason", success: false };
+    }
+};
+
 export const ownedCommunity = async (session?: DecodedIdToken | null | undefined) => {
     try {
         if (!session) {
@@ -103,6 +150,60 @@ export const ownedCommunity = async (session?: DecodedIdToken | null | undefined
             .then(x => x);
 
         return { data: result, message: "Successfully find community!", success: true };
+    } catch (e: unknown) {
+        console.error(e);
+
+        return { data: [], message: "Failed to querying with unknown reason", success: false };
+    }
+};
+
+export type FindCommunityPostResult = Pick<typeof CommunityPost.$inferSelect, "slug" | "title" | "message"> & {
+    author: Pick<typeof User.$inferSelect, "nick" | "username" | "avatar">;
+    community: Pick<typeof Community.$inferSelect, "name">;
+};
+
+export const communityPost = async (slug: string) => {
+    try {
+        const communityResult = await db.select({
+            id: Community.id
+        })
+            .from(Community)
+            .where(
+                ilike(
+                    Community.name, slug
+                )
+            )
+            .then(x => x[0] ?? null);
+
+        const result = await db.select({
+            slug: CommunityPost.slug,
+            title: CommunityPost.title,
+            message: CommunityPost.message,
+            author: {
+                nick: User.nick,
+                username: User.username,
+                avatar: User.avatar
+            },
+            community: {
+                name: Community.name
+            }
+        })
+            .from(CommunityPost)
+            .where(
+                eq(
+                    CommunityPost.communityId, communityResult.id
+                )
+            )
+            .leftJoin(
+                User, eq(CommunityPost.userId, User.id)
+            )
+            .leftJoin(
+                Community, eq(CommunityPost.communityId, Community.id)
+            )
+            .limit(5)
+            .then(x => x);
+
+        return { data: result as FindCommunityPostResult[], message: "Successfully find community post!", success: true };
     } catch (e: unknown) {
         console.error(e);
 
