@@ -12,8 +12,6 @@ import { MessageCircleMore } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
-export const fetchCache = "force-no-store";
-
 export default function RootLayout({
     children
 }: Readonly<{
