@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { fetchSession } from "./Auth";
 import db from "@/db/drizzle";
 import { Community, CommunityPost, User } from "@/db/schema";
-import { eq, ilike } from "drizzle-orm";
+import { asc, eq, ilike } from "drizzle-orm";
 import { DecodedIdToken } from "firebase-admin/auth";
 
 export interface Rule {
@@ -189,6 +189,9 @@ export const communityPost = async (slug: string) => {
             }
         })
             .from(CommunityPost)
+            .orderBy(
+                asc(CommunityPost.updatedAt)
+            )
             .where(
                 eq(
                     CommunityPost.communityId, communityResult.id
@@ -227,6 +230,9 @@ export const feedCommunityPost = async () => {
             }
         })
             .from(CommunityPost)
+            .orderBy(
+                asc(CommunityPost.updatedAt)
+            )
             .leftJoin(
                 User, eq(CommunityPost.userId, User.id)
             )
