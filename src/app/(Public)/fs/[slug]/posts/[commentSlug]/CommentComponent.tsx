@@ -12,13 +12,14 @@ export default function CommentComponent({ params }: { params: { slug: string; c
 
     return (
         <form action={p => {
+            const toastId = toast.loading("Posting comment...");
             void postComment(p, params.commentSlug)
                 .then(x => {
                     if (x.success) {
-                        toast.success(x.message);
+                        toast.success(x.message, { id: toastId });
                         setTimeout(() => router.refresh(), 3000);
                     } else {
-                        toast.error(x.message);
+                        toast.error(x.message, { id: toastId });
 
                         if (x.message.includes("auth")) {
                             router.push("/account");
