@@ -41,9 +41,9 @@ export const DefaultContentCard = (props: ContentCardProps) => {
         <Link href={`/fs/${props.community.toLowerCase()}/posts/${props.slug}`} className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4">
             <div className="flex h-10 flex-row items-center justify-between">
                 <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-sm text-white md:text-lg">
-                    <ChevronUp strokeWidth={3} color="#5da35d" />
+                    <ChevronUp className="hover:opacity-65" strokeWidth={3} color="#5da35d" />
                     <p>2.5K</p>
-                    <ChevronDown strokeWidth={3} color="#b32b2b" />
+                    <ChevronDown className="hover:opacity-65" strokeWidth={3} color="#b32b2b" />
                 </div>
 
                 <div className="flex h-full flex-row gap-1">
@@ -125,9 +125,9 @@ export const CommunityContentCard = (props: ContentCardProps) => {
         <Link href={`/fs/${props.community.toLowerCase()}/posts/${props.slug}`} className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4">
             <div className="flex h-10 flex-row items-center justify-between">
                 <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-sm text-white md:text-lg">
-                    <ChevronUp strokeWidth={3} color="#5da35d" />
+                    <ChevronUp className="hover:opacity-65" strokeWidth={3} color="#5da35d" />
                     <p>2.5K</p>
-                    <ChevronDown strokeWidth={3} color="#b32b2b" />
+                    <ChevronDown className="hover:opacity-65" strokeWidth={3} color="#b32b2b" />
                 </div>
 
                 <div className="flex h-full flex-row gap-1">
