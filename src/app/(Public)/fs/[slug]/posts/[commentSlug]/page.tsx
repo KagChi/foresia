@@ -21,9 +21,9 @@ export default async function CommunityPage({ params }: { params: { slug: string
                 <div className="flex w-full flex-col-reverse gap-6 rounded-md p-2 md:p-4">
                     <div className="flex h-10 flex-row items-center justify-between">
                         <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-sm text-white md:text-lg">
-                            <ChevronUp strokeWidth={3} color="#5da35d" />
+                            <ChevronUp className="cursor-pointer hover:opacity-65" strokeWidth={3} color="#5da35d" />
                             <p>2.5K</p>
-                            <ChevronDown strokeWidth={3} color="#b32b2b" />
+                            <ChevronDown className="cursor-pointer hover:opacity-65" strokeWidth={3} color="#b32b2b" />
                         </div>
 
                         <div className="flex h-full flex-row gap-1">
