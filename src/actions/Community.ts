@@ -330,6 +330,9 @@ export const findCommunityPostComment = async (slug: string) => {
                     CommunityPostComment.postId, communityPostResult.id
                 )
             )
+            .orderBy(
+                desc(CommunityPostComment.createdAt)
+            )
             .leftJoin(
                 User, eq(CommunityPostComment.userId, User.id)
             );
