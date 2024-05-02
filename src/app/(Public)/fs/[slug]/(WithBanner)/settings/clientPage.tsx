@@ -34,13 +34,14 @@ export default function ClientPage() {
                 </form>
 
                 <form action={() => {
+                    const toastId = toast.loading("Deleting community...");
                     void deleteCommunity(community.name)
                         .then(x => {
                             if (x.success) {
-                                toast.success(x.message);
+                                toast.success(x.message, { id: toastId });
                                 router.push("/");
                             } else {
-                                toast.error(x.message);
+                                toast.error(x.message, { id: toastId });
                             }
                         });
                 }}>
