@@ -11,6 +11,8 @@ export default async function CommunityPage({ params }: { params: { slug: string
             <div className="flex w-full flex-col gap-4">
                 {posts.data.length >= 1 &&
                     posts.data.map((x, i) => <DefaultContentCard
+                        voteCount={x.voteCount}
+                        commentCount={x.commentCount}
                         key={i}
                         createdAt={x.createdAt}
                         slug={x.slug}

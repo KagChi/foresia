@@ -1,11 +1,11 @@
 import { Role } from "@/constants/enum";
 import { HasDefault, NotNull, sql } from "drizzle-orm";
-import { pgTable, PgTimestampBuilderInitial, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { pgEnum, pgTable, PgTimestampBuilderInitial, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 export function createdAt(name?: string): HasDefault<NotNull<PgTimestampBuilderInitial<string>>> {
     return timestamp(name ?? "created_at")
         .notNull()
-        .defaultNow();
+        .default(sql`CURRENT_TIMESTAMP`);
 }
 
 export function updatedAt(name?: string): HasDefault<NotNull<PgTimestampBuilderInitial<string>>> {
@@ -13,6 +13,8 @@ export function updatedAt(name?: string): HasDefault<NotNull<PgTimestampBuilderI
         .notNull()
         .$onUpdate(() => new Date());
 }
+
+export const VoteType = pgEnum("vote_type", ["UPVOTE", "DOWNVOTE"]);
 
 export const User = pgTable("user", {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -67,6 +69,18 @@ export const CommunityPostComment = pgTable("community_post_comment", {
     id: uuid("id").primaryKey().defaultRandom(),
 
     message: varchar("message").notNull(),
+
+    postId: uuid("post_id").notNull().references(() => CommunityPost.id, { onDelete: "cascade" }),
+    userId: uuid("user_id").notNull().references(() => User.id, { onDelete: "cascade" }),
+
+    createdAt: createdAt("created_at"),
+    updatedAt: updatedAt("updated_at")
+});
+
+export const CommunityPostVote = pgTable("community_post_vote", {
+    id: uuid("id").primaryKey().defaultRandom(),
+
+    type: VoteType("type").notNull(),
 
     postId: uuid("post_id").notNull().references(() => CommunityPost.id, { onDelete: "cascade" }),
     userId: uuid("user_id").notNull().references(() => User.id, { onDelete: "cascade" }),
