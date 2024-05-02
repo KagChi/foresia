@@ -3,8 +3,8 @@
 import { redirect } from "next/navigation";
 import { fetchSession } from "./Auth";
 import db from "@/db/drizzle";
-import { Community, CommunityPost, CommunityPostComment, User } from "@/db/schema";
-import { desc, eq, ilike } from "drizzle-orm";
+import { Community, CommunityPost, CommunityPostComment, CommunityPostVote, User } from "@/db/schema";
+import { and, desc, eq, ilike, sql } from "drizzle-orm";
 import { DecodedIdToken } from "firebase-admin/auth";
 
 export interface Rule {
@@ -42,7 +42,7 @@ export const createCommunity = async (props: FormData) => {
     }
 };
 
-export type FindCommunityResult = Omit<typeof Community.$inferSelect, "updatedAt" | "ownerId"> & { author: Pick<typeof User.$inferSelect, "avatar" | "nick" | "username"> };
+export type FindCommunityResult = Omit<typeof Community.$inferSelect, "updatedAt" | "ownerId"> & { voteCount: number; commentCount: number; author: Pick<typeof User.$inferSelect, "avatar" | "nick" | "username"> };
 
 export const findCommunity = async (slug: string, withUserId?: boolean): Promise<{ data: FindCommunityResult | null; message: string; success: boolean }> => {
     try {
@@ -166,6 +166,8 @@ export const ownedCommunity = async (session?: DecodedIdToken | null | undefined
 };
 
 export type FindCommunityPostResult = Pick<typeof CommunityPost.$inferSelect, "slug" | "title" | "message" | "createdAt"> & {
+    voteCount: number;
+    commentCount: number;
     author: Pick<typeof User.$inferSelect, "nick" | "username" | "avatar">;
     community: Pick<typeof Community.$inferSelect, "name">;
 };
@@ -195,7 +197,9 @@ export const communityPost = async (slug: string) => {
             },
             community: {
                 name: Community.name
-            }
+            },
+            voteCount: sql<number>`cast(count(distinct ${CommunityPostVote.id}) as integer)`,
+            commentCount: sql<number>`cast(count(distinct ${CommunityPostComment.id}) as integer)`
         })
             .from(CommunityPost)
             .orderBy(
@@ -212,6 +216,9 @@ export const communityPost = async (slug: string) => {
             .leftJoin(
                 Community, eq(CommunityPost.communityId, Community.id)
             )
+            .leftJoin(CommunityPostVote, eq(CommunityPost.id, CommunityPostVote.postId))
+            .leftJoin(CommunityPostComment, eq(CommunityPost.id, CommunityPostComment.postId))
+            .groupBy(CommunityPost.id, User.id, Community.id)
             .limit(5)
             .then(x => x);
 
@@ -237,7 +244,9 @@ export const feedCommunityPost = async () => {
             },
             community: {
                 name: Community.name
-            }
+            },
+            voteCount: sql<number>`cast(count(distinct ${CommunityPostVote.id}) as integer)`,
+            commentCount: sql<number>`cast(count(distinct ${CommunityPostComment.id}) as integer)`
         })
             .from(CommunityPost)
             .orderBy(
@@ -249,6 +258,9 @@ export const feedCommunityPost = async () => {
             .leftJoin(
                 Community, eq(CommunityPost.communityId, Community.id)
             )
+            .leftJoin(CommunityPostVote, eq(CommunityPost.id, CommunityPostVote.postId))
+            .leftJoin(CommunityPostComment, eq(CommunityPost.id, CommunityPostComment.postId))
+            .groupBy(CommunityPost.id, User.id, Community.id)
             .limit(5)
             .then(x => x);
 
@@ -274,7 +286,9 @@ export const findCommunityPost = async (slug: string) => {
             },
             community: {
                 name: Community.name
-            }
+            },
+            voteCount: sql<number>`cast(count(distinct ${CommunityPostVote.id}) as integer)`,
+            commentCount: sql<number>`cast(count(distinct ${CommunityPostComment.id}) as integer)`
         })
             .from(CommunityPost)
             .where(
@@ -288,6 +302,9 @@ export const findCommunityPost = async (slug: string) => {
             .leftJoin(
                 Community, eq(CommunityPost.communityId, Community.id)
             )
+            .leftJoin(CommunityPostVote, eq(CommunityPost.id, CommunityPostVote.postId))
+            .leftJoin(CommunityPostComment, eq(CommunityPost.id, CommunityPostComment.postId))
+            .groupBy(CommunityPost.id, User.id, Community.id)
             .then(x => x[0] ?? null);
 
         return { data: result as FindCommunityPostResult | null, message: "Successfully find community post!", success: true };
@@ -397,6 +414,67 @@ export const deleteCommunity = async (name: string, session?: DecodedIdToken | n
             );
 
         return { message: "Successfully deleted community!", success: true };
+    } catch (e: unknown) {
+        console.error(e);
+
+        return { message: "Failed to querying with unknown reason", success: false };
+    }
+};
+
+export const voteCommunityPost = async (slug: string, type: "UPVOTE" | "DOWNVOTE", session?: DecodedIdToken | null | undefined) => {
+    try {
+        if (!session) {
+            session = await fetchSession();
+        }
+
+        if (!session) {
+            return { message: "Not authenticated!", success: false };
+        }
+
+        const communityPostResult = await db.select({
+            id: CommunityPost.id
+        })
+            .from(CommunityPost)
+            .where(
+                ilike(
+                    CommunityPost.slug, slug
+                )
+            )
+            .then(x => x[0] ?? null)
+            .catch(() => null);
+
+        if (!communityPostResult) {
+            return { message: "Post not found", success: false };
+        }
+
+        const result = await db.update(CommunityPostVote)
+            .set({
+                type
+            })
+            .where(
+                and(
+                    eq(
+                        CommunityPostVote.userId, session.uid
+                    ),
+                    eq(
+                        CommunityPostVote.postId, communityPostResult.id
+                    )
+                )
+            )
+            .returning();
+
+        if (!result.length) {
+            await db.insert(CommunityPostVote)
+                .values({
+                    type,
+                    userId: session.uid,
+                    postId: communityPostResult.id
+                });
+        }
+
+        console.log(result);
+
+        return { message: `Successfully ${type.toLowerCase()} the post`, success: true };
     } catch (e: unknown) {
         console.error(e);
 

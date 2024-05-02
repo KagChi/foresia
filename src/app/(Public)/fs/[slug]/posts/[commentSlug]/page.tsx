@@ -2,10 +2,11 @@
 
 import { findCommunityPost, findCommunityPostComment } from "@/actions/Community";
 import { NotFound } from "@/components/NotFound";
-import { ChevronUp, ChevronDown, MessageSquareMore, Share2, ChevronLeft } from "lucide-react";
+import { MessageSquareMore, Share2, ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { timeSince } from "@/app/util/parseDate";
 import CommentComponent from "./CommentComponent";
+import { VoteComponent } from "./VoteComponent";
 
 export default async function CommunityPage({ params }: { params: { slug: string; commentSlug: string } }) {
     const { data: post } = await findCommunityPost(params.commentSlug);
@@ -21,15 +22,13 @@ export default async function CommunityPage({ params }: { params: { slug: string
                 <div className="flex w-full flex-col-reverse gap-6 rounded-md p-2 md:p-4">
                     <div className="flex h-10 flex-row items-center justify-between">
                         <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-sm text-white md:text-lg">
-                            <ChevronUp className="cursor-pointer hover:opacity-65" strokeWidth={3} color="#5da35d" />
-                            <p>2.5K</p>
-                            <ChevronDown className="cursor-pointer hover:opacity-65" strokeWidth={3} color="#b32b2b" />
+                            <VoteComponent slug={params.commentSlug} voteCount={post.voteCount} />
                         </div>
 
                         <div className="flex h-full flex-row gap-1">
                             <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-white">
                                 <MessageSquareMore size={22} color="white" />
-                                <p>36</p>
+                                <p>{comments.data.length}</p>
                             </div>
 
                             <div className="flex h-full flex-row items-center gap-1 rounded-full bg-[#1B1B1B] p-2 text-white">

@@ -1,10 +1,13 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 "use client";
+import { voteCommunityPost } from "@/actions/Community";
+import { formatNumber } from "@/app/util/formatNumber";
 import { timeSince } from "@/app/util/parseDate";
 import { ChevronUp, ChevronDown, MessageSquareMore, Share2, CircleX } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 interface ContentCardProps {
     title: string;
@@ -17,6 +20,9 @@ interface ContentCardProps {
 
     slug: string;
     createdAt: string | Date;
+
+    voteCount: number;
+    commentCount: number;
 }
 
 export const DefaultContentCard = (props: ContentCardProps) => {
@@ -41,15 +47,33 @@ export const DefaultContentCard = (props: ContentCardProps) => {
         <Link href={`/fs/${props.community.toLowerCase()}/posts/${props.slug}`} className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4">
             <div className="flex h-10 flex-row items-center justify-between">
                 <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-sm text-white md:text-lg">
-                    <ChevronUp className="hover:opacity-65" strokeWidth={3} color="#5da35d" />
-                    <p>2.5K</p>
-                    <ChevronDown className="hover:opacity-65" strokeWidth={3} color="#b32b2b" />
+                    <ChevronUp onClick={() => {
+                        void voteCommunityPost(props.slug, "UPVOTE")
+                            .then(x => {
+                                if (x.success) {
+                                    toast.success(x.message);
+                                } else {
+                                    toast.error(x.message);
+                                }
+                            });
+                    }} className="hover:opacity-65" strokeWidth={3} color="#5da35d" />
+                    <p>{formatNumber(props.voteCount)}</p>
+                    <ChevronDown onClick={() => {
+                        void voteCommunityPost(props.slug, "DOWNVOTE")
+                            .then(x => {
+                                if (x.success) {
+                                    toast.success(x.message);
+                                } else {
+                                    toast.error(x.message);
+                                }
+                            });
+                    }} className="hover:opacity-65" strokeWidth={3} color="#b32b2b" />
                 </div>
 
                 <div className="flex h-full flex-row gap-1">
                     <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-white">
                         <MessageSquareMore size={22} color="white" />
-                        <p>36</p>
+                        <p>{formatNumber(props.commentCount)}</p>
                     </div>
 
                     <div className="flex h-full flex-row items-center gap-1 rounded-full bg-[#1B1B1B] p-2 text-white">
@@ -126,14 +150,14 @@ export const CommunityContentCard = (props: ContentCardProps) => {
             <div className="flex h-10 flex-row items-center justify-between">
                 <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-sm text-white md:text-lg">
                     <ChevronUp className="hover:opacity-65" strokeWidth={3} color="#5da35d" />
-                    <p>2.5K</p>
+                    <p>{formatNumber(props.voteCount)}</p>
                     <ChevronDown className="hover:opacity-65" strokeWidth={3} color="#b32b2b" />
                 </div>
 
                 <div className="flex h-full flex-row gap-1">
                     <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-white">
                         <MessageSquareMore size={22} color="white" />
-                        <p>36</p>
+                        <p>{formatNumber(props.commentCount)}</p>
                     </div>
 
                     <div className="flex h-full flex-row items-center gap-1 rounded-full bg-[#1B1B1B] p-2 text-white">
