@@ -1,7 +1,8 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { ChevronLeft, CloudUpload } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { createAccount, findAccount } from "../../../actions/Account";
 import toast from "react-hot-toast";
 import { pageSwitchingState, usePageSwitchingSnapshot } from "@/context/PageSwitching";
@@ -113,14 +114,14 @@ const Register = () => <>
                     <input required type="password" name="password" className="min-h-8 rounded-md bg-[#12372A40] px-4 py-2 outline-none" />
                 </div>
 
-                <div className="flex flex-col gap-2 text-white">
+                {/* <div className="flex flex-col gap-2 text-white">
                     <p className="text-2xl font-semibold">Avatar</p>
                     <input accept="image/jpeg, image/jpg, image/webp, image/gif" id="avatar" type="file" hidden />
                     <button type="button" onClick={() => document.getElementById("avatar")?.click()} className="flex w-full flex-row items-center justify-between gap-2 rounded-md bg-[#12372A40] px-4 py-2 md:w-fit">
                         <p>Upload Avatar</p>
                         <CloudUpload />
                     </button>
-                </div>
+                </div> */}
             </div>
 
             <div className="flex flex-row justify-between">

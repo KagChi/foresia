@@ -1,8 +1,9 @@
+/* eslint-disable max-len */
 "use client";
 
 import { createCommunity, Rule } from "@/actions/Community";
 import * as SubmitButton from "@/components/SubmitButton";
-import { CircleX, CloudUpload, Equal, Plus, Send } from "lucide-react";
+import { CircleX, Equal, Plus, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -77,7 +78,7 @@ export default function Create() {
                         </button>
                     </div>
 
-                    <div className="flex flex-col gap-2 text-white">
+                    {/* <div className="flex flex-col gap-2 text-white">
                         <p className="text-2xl font-semibold">Icon</p>
                         <input accept="image/jpeg, image/jpg, image/webp, image/gif" id="icon" type="file" hidden />
                         <button type="button" onClick={() => document.getElementById("icon")?.click()} className="flex w-full flex-row items-center justify-between gap-2 rounded-md bg-[#1B1B1B] px-4 py-2 md:w-fit">
@@ -93,7 +94,7 @@ export default function Create() {
                             <p>Upload Banner</p>
                             <CloudUpload />
                         </button>
-                    </div>
+                    </div> */}
 
                     <div className="ml-auto flex">
                         <SubmitButton.Primary icon={<Send size={20} />} text="Create Community" />
