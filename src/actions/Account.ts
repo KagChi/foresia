@@ -5,6 +5,7 @@ import { User } from "@/db/schema";
 import { firebase } from "@/lib/server.firebase";
 import { eq, or } from "drizzle-orm";
 import { getAuth } from "firebase-admin/auth";
+import { fetchSession } from "./Auth";
 
 export const createAccount = async (props: FormData) => {
     try {
@@ -42,6 +43,32 @@ export const createAccount = async (props: FormData) => {
         console.error(e);
 
         return { message: "Failed to create account with unknown reason", success: false };
+    }
+};
+
+export const updateAccount = async (props: FormData) => {
+    try {
+        const user = await fetchSession();
+        await db.update(User)
+            .set({
+                email: props.get("email") as string,
+                nick: props.get("displayName") as string,
+                username: props.get("username") as string
+            })
+            .where(
+                eq(User.id, user!.uid)
+            );
+        await getAuth(await firebase())
+            .updateUser(user!.uid, {
+                email: props.get("email") as string,
+                displayName: props.get("displayName") as string
+            });
+
+        return { message: "Successfully updated account !", success: true };
+    } catch (e: unknown) {
+        console.error(e);
+
+        return { message: "Failed to update account with unknown reason", success: false };
     }
 };
 
