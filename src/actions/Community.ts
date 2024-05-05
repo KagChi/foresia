@@ -47,6 +47,7 @@ export type FindCommunityResult = Omit<typeof Community.$inferSelect, "updatedAt
 export const findCommunity = async (slug: string, withUserId?: boolean): Promise<{ data: FindCommunityResult | null; message: string; success: boolean }> => {
     try {
         const result = await db.select({
+            id: Community.id,
             name: Community.name,
             icon: Community.icon,
             banner: Community.banner,
@@ -395,6 +396,36 @@ export const postComment = async (props: FormData, slug: string, session?: Decod
         console.error(e);
 
         return { data: null, message: "Failed to querying with unknown reason", success: false };
+    }
+};
+
+
+export const updateCommunity = async (props: FormData, communityId: string) => {
+    const auth = await fetchSession();
+
+    if (!auth) {
+        redirect("/account");
+    }
+
+    try {
+        await db.update(Community)
+            .set({
+                name: props.get("name") as string,
+                description: props.get("description") as string,
+                rules: (JSON.parse(props.get("rules") as string) as Rule[]).map(x => x.text)
+            })
+            .where(
+                and(
+                    eq(Community.ownerId, auth.uid),
+                    eq(Community.id, communityId)
+                )
+            );
+
+        return { message: "Updated community!", success: true };
+    } catch (e: unknown) {
+        console.error(e);
+
+        return { message: "Failed to update community with unknown reason", success: false };
     }
 };
 
