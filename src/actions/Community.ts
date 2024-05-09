@@ -6,6 +6,8 @@ import db from "@/db/drizzle";
 import { Community, CommunityPost, CommunityPostComment, CommunityPostVote, User } from "@/db/schema";
 import { and, desc, eq, ilike, sql } from "drizzle-orm";
 import { DecodedIdToken } from "firebase-admin/auth";
+import { randomUUID } from "crypto";
+import { putObject } from "@/lib/server.s3";
 
 export interface Rule {
     text: string;
@@ -20,13 +22,64 @@ export const createCommunity = async (props: FormData) => {
     }
 
     try {
-        await db.insert(Community)
-            .values({
-                name: props.get("name") as string,
-                description: props.get("description") as string,
-                ownerId: auth.uid,
-                rules: (JSON.parse(props.get("rules") as string) as Rule[]).map(x => x.text)
-            });
+        await db.transaction(async tx => {
+            try {
+                const communityId = await db.insert(Community)
+                    .values({
+                        name: props.get("name") as string,
+                        description: props.get("description") as string,
+                        ownerId: auth.uid,
+                        rules: (JSON.parse(props.get("rules") as string) as Rule[]).map(x => x.text)
+                    })
+                    .returning({ id: Community.id })
+                    .then(x => x[0].id);
+
+                const icon = props.get("icon") as File | null;
+                if (icon && icon.size > 0) {
+                    const iconId = randomUUID();
+                    if (!["image/jpeg", "image/jpg"].includes(icon.type)) {
+                        throw new Error("Icon can only jpeg format!");
+                    }
+
+                    if (icon.size > 1024 * 1024 * 20) {
+                        throw new Error("Icon must be fewer than 20MB!");
+                    }
+
+                    await putObject(iconId, "icons", await icon.arrayBuffer());
+                    await db.update(Community)
+                        .set({
+                            icon: iconId
+                        })
+                        .where(
+                            eq(Community.id, communityId)
+                        );
+                }
+
+                const banner = props.get("banner") as File | null;
+                if (banner && banner.size > 0) {
+                    const bannerId = randomUUID();
+                    if (!["image/jpeg", "image/jpg"].includes(banner.type)) {
+                        throw new Error("Banner can only jpeg format!");
+                    }
+
+                    if (banner.size > 1024 * 1024 * 20) {
+                        throw new Error("Banner must be fewer than 20MB!");
+                    }
+
+                    await putObject(bannerId, "banners", await banner.arrayBuffer());
+
+                    await db.update(Community)
+                        .set({
+                            banner: bannerId
+                        })
+                        .where(
+                            eq(Community.id, communityId)
+                        );
+                }
+            } catch {
+                tx.rollback();
+            }
+        });
 
         return { message: "Created community!", success: true };
     } catch (e: unknown) {
@@ -118,7 +171,29 @@ export const createCommunityPost = async (props: FormData, community: string, se
                 communityId: result.id,
                 userId: session.uid
             })
-            .returning({ slug: CommunityPost.slug });
+            .returning({ slug: CommunityPost.slug, id: CommunityPost.id });
+
+        const image = props.get("image") as File | null;
+        if (image && image.size > 0) {
+            if (!["image/jpeg", "image/jpg"].includes(image.type)) {
+                throw new Error("Image can only jpeg format!");
+            }
+
+            if (image.size > 1024 * 1024 * 20) {
+                throw new Error("Image must be fewer than 20MB!");
+            }
+
+            const imageId = randomUUID();
+            await putObject(imageId, "posts", await image.arrayBuffer());
+
+            await db.update(CommunityPost)
+                .set({
+                    image: imageId
+                })
+                .where(
+                    eq(CommunityPost.id, postResult[0].id)
+                );
+        }
 
         return { data: postResult[0].slug, message: "Success created post!", success: true };
     } catch (e: unknown) {
@@ -166,7 +241,7 @@ export const ownedCommunity = async (session?: DecodedIdToken | null | undefined
     }
 };
 
-export type FindCommunityPostResult = Pick<typeof CommunityPost.$inferSelect, "slug" | "title" | "message" | "createdAt"> & {
+export type FindCommunityPostResult = Pick<typeof CommunityPost.$inferSelect, "image" | "slug" | "title" | "message" | "createdAt"> & {
     voteCount: number;
     commentCount: number;
     author: Pick<typeof User.$inferSelect, "nick" | "username" | "avatar">;
@@ -199,6 +274,7 @@ export const communityPost = async (slug: string) => {
             community: {
                 name: Community.name
             },
+            image: CommunityPost.image,
             voteCount: sql<number>`cast(count(distinct ${CommunityPostVote.id}) as integer)`,
             commentCount: sql<number>`cast(count(distinct ${CommunityPostComment.id}) as integer)`
         })
@@ -246,6 +322,7 @@ export const feedCommunityPost = async () => {
             community: {
                 name: Community.name
             },
+            image: CommunityPost.image,
             voteCount: sql<number>`cast(count(distinct ${CommunityPostVote.id}) as integer)`,
             commentCount: sql<number>`cast(count(distinct ${CommunityPostComment.id}) as integer)`
         })
@@ -288,6 +365,7 @@ export const findCommunityPost = async (slug: string) => {
             community: {
                 name: Community.name
             },
+            image: CommunityPost.image,
             voteCount: sql<number>`cast(count(distinct ${CommunityPostVote.id}) as integer)`,
             commentCount: sql<number>`cast(count(distinct ${CommunityPostComment.id}) as integer)`
         })
@@ -408,7 +486,7 @@ export const updateCommunity = async (props: FormData, communityId: string) => {
     }
 
     try {
-        await db.update(Community)
+        const result = await db.update(Community)
             .set({
                 name: props.get("name") as string,
                 description: props.get("description") as string,
@@ -419,7 +497,64 @@ export const updateCommunity = async (props: FormData, communityId: string) => {
                     eq(Community.ownerId, auth.uid),
                     eq(Community.id, communityId)
                 )
-            );
+            )
+            .returning({
+                icon: Community.icon,
+                banner: Community.banner
+            })
+            .then(x => x[0]);
+
+        const icon = props.get("icon") as File | null;
+        if (icon && icon.size > 0) {
+            if (!["image/jpeg", "image/jpg"].includes(icon.type)) {
+                throw new Error("Icon can only jpeg format!");
+            }
+
+            if (icon.size > 1024 * 1024 * 20) {
+                throw new Error("Icon must be fewer than 20MB!");
+            }
+
+            if (result.icon) {
+                await putObject(result.icon, "icons", await icon.arrayBuffer());
+            } else {
+                const iconId = randomUUID();
+                await putObject(iconId, "icons", await icon.arrayBuffer());
+
+                await db.update(Community)
+                    .set({
+                        icon: iconId
+                    })
+                    .where(
+                        eq(Community.id, communityId)
+                    );
+            }
+        }
+
+        const banner = props.get("banner") as File | null;
+        if (banner && banner.size > 0) {
+            if (!["image/jpeg", "image/jpg"].includes(banner.type)) {
+                throw new Error("Banner can only jpeg format!");
+            }
+
+            if (banner.size > 1024 * 1024 * 20) {
+                throw new Error("Banner must be fewer than 20MB!");
+            }
+
+            if (result.banner) {
+                await putObject(result.banner, "banners", await banner.arrayBuffer());
+            } else {
+                const bannerId = randomUUID();
+                await putObject(bannerId, "banners", await banner.arrayBuffer());
+
+                await db.update(Community)
+                    .set({
+                        banner: bannerId
+                    })
+                    .where(
+                        eq(Community.id, communityId)
+                    );
+            }
+        }
 
         return { message: "Updated community!", success: true };
     } catch (e: unknown) {
@@ -502,8 +637,6 @@ export const voteCommunityPost = async (slug: string, type: "UPVOTE" | "DOWNVOTE
                     postId: communityPostResult.id
                 });
         }
-
-        console.log(result);
 
         return { message: `Successfully ${type.toLowerCase()} the post`, success: true };
     } catch (e: unknown) {

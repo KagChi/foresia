@@ -12,6 +12,11 @@ const nextConfig = {
                 hostname: 'ui-avatars.com',
                 port: '',
             },
+            {
+                protocol: 'https',
+                hostname: 's3.tebi.io',
+                port: '',
+            },
         ],
     },
     // Other configurations

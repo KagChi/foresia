@@ -17,8 +17,10 @@ export default async function Home() {
                                 createdAt={x.createdAt}
                                 slug={x.slug}
                                 user={x.author.nick}
+                                avatar={x.author.avatar}
                                 community={x.community.name}
                                 title={x.title}
+                                image={x.image}
                                 description={x.message ? `${x.message.length >= 521 ? `${x.message.slice(0, 520)}...` : x.message}` : ""}
                             />)
                         }

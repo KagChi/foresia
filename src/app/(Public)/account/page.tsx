@@ -16,7 +16,8 @@ export default async function Account() {
     const user = await db.select({
         email: User.email,
         username: User.username,
-        nick: User.nick
+        nick: User.nick,
+        avatar: User.avatar
     })
         .from(User)
         .where(

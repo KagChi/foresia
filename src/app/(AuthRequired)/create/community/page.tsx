@@ -3,14 +3,45 @@
 
 import { createCommunity, Rule } from "@/actions/Community";
 import * as SubmitButton from "@/components/SubmitButton";
-import { CircleX, Equal, Plus, Send } from "lucide-react";
+import { CircleX, CloudUpload, Equal, Plus, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 export default function Create() {
     const [rules, setRules] = useState<Rule[]>([]);
     const router = useRouter();
+
+    const [iconFile, setIconFile] = useState<File | null>(null);
+    const [bannerFile, setBannerFile] = useState<File | null>(null);
+
+    const handleIconFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const inputFile = event.target.files?.[0] ?? null;
+        if (inputFile && inputFile.size < 1024 * 1024 * 20) {
+            if (!["image/jpeg"].includes(inputFile.type)) {
+                return toast.error("Only images format accepted !");
+            }
+
+
+            setIconFile(inputFile);
+        } else {
+            toast.error("File must be fewer than 20MB!");
+        }
+    };
+
+    const handleBannerFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const inputFile = event.target.files?.[0] ?? null;
+        if (inputFile && inputFile.size < 1024 * 1024 * 20) {
+            if (!["image/jpeg"].includes(inputFile.type)) {
+                return toast.error("Only images format accepted !");
+            }
+
+            setBannerFile(inputFile);
+        } else {
+            toast.error("File must be fewer than 20MB!");
+        }
+    };
 
     return (
         <>
@@ -78,23 +109,27 @@ export default function Create() {
                         </button>
                     </div>
 
-                    {/* <div className="flex flex-col gap-2 text-white">
+                    <div className="flex flex-col gap-2 text-white">
                         <p className="text-2xl font-semibold">Icon</p>
-                        <input accept="image/jpeg, image/jpg, image/webp, image/gif" id="icon" type="file" hidden />
+                        <input onChange={handleIconFileInputChange} accept="image/jpeg" id="icon" name="icon" type="file" hidden />
                         <button type="button" onClick={() => document.getElementById("icon")?.click()} className="flex w-full flex-row items-center justify-between gap-2 rounded-md bg-[#1B1B1B] px-4 py-2 md:w-fit">
                             <p>Upload Icon</p>
                             <CloudUpload />
                         </button>
+
+                        {iconFile && <Image className="size-16 rounded-full object-cover" width={512} height={512} alt="Avatar" src={URL.createObjectURL(iconFile)} />}
                     </div>
 
                     <div className="flex flex-col gap-2 text-white">
                         <p className="text-2xl font-semibold">Banner</p>
-                        <input accept="image/jpeg, image/jpg, image/webp, image/gif" id="banner" type="file" hidden />
+                        <input onChange={handleBannerFileInputChange} accept="image/jpeg" id="banner" name="banner" type="file" hidden />
                         <button type="button" onClick={() => document.getElementById("banner")?.click()} className="flex w-full flex-row items-center justify-between gap-2 rounded-md bg-[#1B1B1B] px-4 py-2 md:w-fit">
                             <p>Upload Banner</p>
                             <CloudUpload />
                         </button>
-                    </div> */}
+
+                        {bannerFile && <Image className="h-auto w-full rounded-md object-cover" width={1280} height={1080} alt="Avatar" src={URL.createObjectURL(bannerFile)} />}
+                    </div>
 
                     <div className="ml-auto flex">
                         <SubmitButton.Primary icon={<Send size={20} />} text="Create Community" />

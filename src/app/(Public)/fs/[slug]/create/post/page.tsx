@@ -5,16 +5,32 @@ import * as SubmitButton from "@/components/SubmitButton";
 import { useAuthSnapshot } from "@/context/Auth";
 import { ChevronLeft, CloudUpload, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 export default function Create({ params }: { params: { slug: string } }) {
     const router = useRouter();
-
     const auth = useAuthSnapshot();
+    const [file, setFile] = useState<File | null>(null);
 
     if (!auth.loading && !auth.firebaseUser && !auth.user) {
         return router.push("/account");
     }
+
+    const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const inputFile = event.target.files?.[0] ?? null;
+        if (inputFile && inputFile.size < 1024 * 1024 * 20) {
+            if (!["image/jpeg"].includes(inputFile.type)) {
+                return toast.error("Only images format accepted !");
+            }
+
+
+            setFile(inputFile);
+        } else {
+            toast.error("File must be fewer than 20MB!");
+        }
+    };
 
     return (
         <div className="container flex w-full max-w-5xl flex-col items-center justify-center gap-2 p-4">
@@ -50,11 +66,13 @@ export default function Create({ params }: { params: { slug: string } }) {
 
                 <div className="flex flex-col gap-2 text-white">
                     <p className="text-2xl font-semibold">Image</p>
-                    <input accept="image/jpeg, image/jpg, image/webp, image/gif" id="image" type="file" hidden />
-                    <button type="submit" onClick={() => document.getElementById("image")?.click()} className="flex w-full flex-row items-center justify-between gap-2 rounded-md bg-[#1B1B1B] px-4 py-2 md:w-fit">
+                    <input onChange={handleFileInputChange} accept="image/jpeg, image/jpg" id="image" name="image" type="file" hidden />
+                    <button type="button" onClick={() => document.getElementById("image")?.click()} className="flex w-full flex-row items-center justify-between gap-2 rounded-md bg-[#1B1B1B] px-4 py-2 md:w-fit">
                         <p>Upload Image</p>
                         <CloudUpload />
                     </button>
+
+                    {file && <Image className="h-auto w-full rounded-md object-cover" width={1280} height={1080} alt="Image" src={URL.createObjectURL(file)} />}
                 </div>
 
                 <div className="ml-auto flex">

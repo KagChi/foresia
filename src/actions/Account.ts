@@ -6,6 +6,8 @@ import { firebase } from "@/lib/server.firebase";
 import { eq, or } from "drizzle-orm";
 import { getAuth } from "firebase-admin/auth";
 import { fetchSession } from "./Auth";
+import { randomUUID } from "crypto";
+import { putObject } from "@/lib/server.s3";
 
 export const createAccount = async (props: FormData) => {
     try {
@@ -30,6 +32,28 @@ export const createAccount = async (props: FormData) => {
                 );
         }
 
+        const avatar = props.get("avatar") as File | null;
+        if (avatar && avatar.size > 0) {
+            if (!["image/jpeg", "image/jpg"].includes(avatar.type)) {
+                throw new Error("Avatar can only jpeg format!");
+            }
+
+            if (avatar.size > 1024 * 1024 * 20) {
+                throw new Error("Avatar must be fewer than 20MB!");
+            }
+
+            const avatarId = randomUUID();
+            await putObject(avatarId, "avatars", await avatar.arrayBuffer());
+
+            await db.update(User)
+                .set({
+                    avatar: avatarId
+                })
+                .where(
+                    eq(User.id, result[0].id)
+                );
+        }
+
         return { message: "Successfully created account !", success: true };
     } catch (e: unknown) {
         if (e && typeof e === "object" && "message" in e && typeof e.message === "string") {
@@ -49,7 +73,7 @@ export const createAccount = async (props: FormData) => {
 export const updateAccount = async (props: FormData) => {
     try {
         const user = await fetchSession();
-        await db.update(User)
+        const result = await db.update(User)
             .set({
                 email: props.get("email") as string,
                 nick: props.get("displayName") as string,
@@ -57,12 +81,42 @@ export const updateAccount = async (props: FormData) => {
             })
             .where(
                 eq(User.id, user!.uid)
-            );
+            )
+            .returning({
+                avatar: User.avatar,
+                id: User.id
+            });
         await getAuth(await firebase())
             .updateUser(user!.uid, {
                 email: props.get("email") as string,
                 displayName: props.get("displayName") as string
             });
+
+        const avatar = props.get("avatar") as File | null;
+        if (avatar && avatar.size > 0) {
+            if (!["image/jpeg", "image/jpg"].includes(avatar.type)) {
+                throw new Error("Avatar can only jpeg format!");
+            }
+
+            if (avatar.size > 1024 * 1024 * 20) {
+                throw new Error("Avatar must be fewer than 20MB!");
+            }
+
+            if (result[0].avatar) {
+                await putObject(result[0].avatar, "avatars", await avatar.arrayBuffer());
+            } else {
+                const avatarId = randomUUID();
+                await putObject(avatarId, "avatars", await avatar.arrayBuffer());
+
+                await db.update(User)
+                    .set({
+                        avatar: avatarId
+                    })
+                    .where(
+                        eq(User.id, result[0].id)
+                    );
+            }
+        }
 
         return { message: "Successfully updated account !", success: true };
     } catch (e: unknown) {

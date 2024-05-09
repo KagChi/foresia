@@ -5,8 +5,9 @@ import * as SubmitButton from "@/components/SubmitButton";
 import { deleteCommunity, updateCommunity } from "@/actions/Community";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { CircleX, Equal, Plus } from "lucide-react";
+import { CircleX, CloudUpload, Equal, Plus } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function ClientPage() {
     const community = useCommunity()!;
@@ -14,11 +15,41 @@ export default function ClientPage() {
 
     const [rules, setRules] = useState(community.rules.map(x => ({ text: x, id: (Math.random() + 1).toString(36).substring(7) })));
 
+    const [iconFile, setIconFile] = useState<File | null>(null);
+    const [bannerFile, setBannerFile] = useState<File | null>(null);
+
+    const handleIconFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const inputFile = event.target.files?.[0] ?? null;
+        if (inputFile && inputFile.size < 1024 * 1024 * 20) {
+            if (!["image/jpeg"].includes(inputFile.type)) {
+                return toast.error("Only images format accepted !");
+            }
+
+
+            setIconFile(inputFile);
+        } else {
+            toast.error("File must be fewer than 20MB!");
+        }
+    };
+
+    const handleBannerFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const inputFile = event.target.files?.[0] ?? null;
+        if (inputFile && inputFile.size < 1024 * 1024 * 20) {
+            if (!["image/jpeg"].includes(inputFile.type)) {
+                return toast.error("Only images format accepted !");
+            }
+
+            setBannerFile(inputFile);
+        } else {
+            toast.error("File must be fewer than 20MB!");
+        }
+    };
+
     return (
         <>
             <div className="px-6 py-4">
-                <form action={p => {
-                    const toastId = toast.loading("updating account...");
+                <form className="flex flex-col gap-2" action={p => {
+                    const toastId = toast.loading("updating community...");
 
                     p.set("rules", JSON.stringify(rules));
 
@@ -71,6 +102,28 @@ export default function ClientPage() {
                             </p>
                             <Plus />
                         </button>
+                    </div>
+
+                    <div className="flex flex-col gap-2 text-white">
+                        <p className="text-2xl font-semibold">Icon</p>
+                        <input onChange={handleIconFileInputChange} accept="image/jpeg" id="icon" name="icon" type="file" hidden />
+                        <button type="button" onClick={() => document.getElementById("icon")?.click()} className="flex w-full flex-row items-center justify-between gap-2 rounded-md bg-[#1B1B1B] px-4 py-2 md:w-fit">
+                            <p>Upload Icon</p>
+                            <CloudUpload />
+                        </button>
+
+                        {iconFile && <Image className="size-16 rounded-full object-cover" width={512} height={512} alt="Avatar" src={URL.createObjectURL(iconFile)} />}
+                    </div>
+
+                    <div className="flex flex-col gap-2 text-white">
+                        <p className="text-2xl font-semibold">Banner</p>
+                        <input onChange={handleBannerFileInputChange} accept="image/jpeg" id="banner" name="banner" type="file" hidden />
+                        <button type="button" onClick={() => document.getElementById("banner")?.click()} className="flex w-full flex-row items-center justify-between gap-2 rounded-md bg-[#1B1B1B] px-4 py-2 md:w-fit">
+                            <p>Upload Banner</p>
+                            <CloudUpload />
+                        </button>
+
+                        {bannerFile && <Image className="h-auto w-full rounded-md object-cover" width={1280} height={1080} alt="Avatar" src={URL.createObjectURL(bannerFile)} />}
                     </div>
 
                     <div>

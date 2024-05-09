@@ -6,6 +6,7 @@ import { MessageSquareMore, Share2, ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { timeSince } from "@/app/util/parseDate";
 import CommentComponent from "./CommentComponent";
+import ImageComponent from "./ImageComponent";
 import { VoteComponent } from "./VoteComponent";
 
 export default async function CommunityPage({ params }: { params: { slug: string; commentSlug: string } }) {
@@ -43,7 +44,7 @@ export default async function CommunityPage({ params }: { params: { slug: string
                                 <ChevronLeft size={28} />
                             </a>
                             {
-                                post.author.avatar ? <div className="size-10 rounded-full bg-[#1B1B1B]" /> : <Image width={512} height={512} alt="Avatar" className="size-10 rounded-full" src={`${post.author.avatar ? "" : `https://ui-avatars.com/api?name=${post.author.nick}&format=webp`}`} />
+                                <Image width={512} height={512} alt="Avatar" className="size-10 rounded-full" src={`${post.author.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${post.author.avatar}.jpg` : `https://ui-avatars.com/api?name=${post.author.nick}&format=webp`}`} />
                             }
                             <p className="flex flex-col text-white">
                                 <span className="flex flex-row gap-3">
@@ -65,6 +66,10 @@ export default async function CommunityPage({ params }: { params: { slug: string
                                 {post.message}
                             </span>
                         </p>
+
+                        {
+                            post.image && <ImageComponent image={post.image} />
+                        }
                     </div>
                 </div>
 
@@ -74,7 +79,7 @@ export default async function CommunityPage({ params }: { params: { slug: string
                     {
                         comments.data.map((x, i) => <div key={i} className="flex flex-row gap-3 text-white">
                             {
-                                x.author.avatar ? <div className="size-8 rounded-full bg-[#1B1B1B]" /> : <Image width={512} height={512} alt="Avatar" className="size-8 rounded-full" src={`${x.author.avatar ? "" : `https://ui-avatars.com/api?name=${x.author.nick}&format=webp`}`} />
+                                <Image width={512} height={512} alt="Avatar" className="size-8 rounded-full" src={`${x.author.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${x.author.avatar}.jpg` : `https://ui-avatars.com/api?name=${x.author.nick}&format=webp`}`} />
                             }
                             <div className="flex flex-col gap-2">
                                 <p className="flex w-full flex-row gap-2 text-lg text-gray-500">
