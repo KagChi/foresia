@@ -10,8 +10,8 @@ import ImageComponent from "./ImageComponent";
 import { VoteComponent } from "./VoteComponent";
 import { Metadata } from "next";
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-    const { data: post } = await findCommunityPost(params.slug);
+export async function generateMetadata({ params }: { params: { commentSlug: string } }): Promise<Metadata> {
+    const { data: post } = await findCommunityPost(params.commentSlug);
 
     if (post !== null) {
         return {
