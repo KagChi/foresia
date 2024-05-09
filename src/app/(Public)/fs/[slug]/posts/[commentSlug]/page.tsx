@@ -8,6 +8,35 @@ import { timeSince } from "@/app/util/parseDate";
 import CommentComponent from "./CommentComponent";
 import ImageComponent from "./ImageComponent";
 import { VoteComponent } from "./VoteComponent";
+import { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+    const { data: post } = await findCommunityPost(params.slug);
+
+    if (post !== null) {
+        return {
+            title: post.title,
+            description: post.message ? `${post.message.split(/\n/).join(" ").slice(0, 150)}...` : "No desc",
+            openGraph: {
+                title: post.title,
+                description: post.message ? `${post.message.split(/\n/).join(" ").slice(0, 150)}...` : "No content",
+                images: [
+                    {
+                        url: `https://s3.tebi.io/foresia/assets/posts/${post.image}.jpg`,
+                        width: 1920,
+                        height: 1280,
+                        alt: post.title
+                    }
+                ]
+            }
+        };
+    }
+
+    return {
+        title: "Post not found",
+        description: "No post was found!"
+    };
+}
 
 export default async function CommunityPage({ params }: { params: { slug: string; commentSlug: string } }) {
     const { data: post } = await findCommunityPost(params.commentSlug);
