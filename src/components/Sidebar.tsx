@@ -3,7 +3,6 @@
 
 import { Navigation, UsersRound, Gamepad2, ChevronDown, Bitcoin, LineChart, Dumbbell, Menu, X, ChevronRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { SearchQuery } from "./SearchQuery";
 import { useImmer } from "use-immer";
 import Image from "next/image";
 
@@ -51,7 +50,7 @@ export const Sidebar = ({ children, profile }: Readonly<{ children?: React.React
                         <p className="text-xl font-bold ">Foresia</p>
                     </a>
 
-                    <SearchQuery />
+                    {/* <SearchQuery /> */}
 
                     <div className="flex flex-col gap-4">
                         <p className="flex items-center gap-2 text-lg font-bold text-white">
