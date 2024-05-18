@@ -59,7 +59,7 @@ export const Sidebar = ({ children, profile }: Readonly<{ children?: React.React
                         </p>
                         <div className="flex flex-col font-medium">
                             <a href="/create/community" className="font-medium text-gray-400">Create new community</a>
-                            <a href="/popular" className="font-medium text-gray-400">Popular Subrealms</a>
+                            {/* <a href="/popular" className="font-medium text-gray-400">Popular Subrealms</a> */}
                         </div>
                     </div>
 
