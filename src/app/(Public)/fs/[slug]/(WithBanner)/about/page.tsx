@@ -30,7 +30,7 @@ export default function CommunityPage() {
                         <p className="text-xl font-bold uppercase">Author</p>
                         <div className="flex flex-row items-center gap-4">
                             {
-                                <Image width={512} height={512} alt="Avatar" className="size-8 rounded-full md:size-10" src={`${community.author.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${community.author.avatar}.jpg` : `https://ui-avatars.com/api?name=${community.author.username}&format=webp`}`} />
+                                <Image unoptimized width={512} height={512} alt="Avatar" className="size-8 rounded-full md:size-10" src={`${community.author.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${community.author.avatar}.jpg` : `https://ui-avatars.com/api?name=${community.author.username}&format=webp`}`} />
                             }
                             <p>{community.author.nick}</p>
                         </div>

@@ -73,7 +73,7 @@ export default async function CommunityPage({ params }: { params: { slug: string
                                 <ChevronLeft size={28} />
                             </a>
                             {
-                                <Image width={512} height={512} alt="Avatar" className="size-10 rounded-full" src={`${post.author.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${post.author.avatar}.jpg` : `https://ui-avatars.com/api?name=${post.author.nick}&format=webp`}`} />
+                                <Image unoptimized width={512} height={512} alt="Avatar" className="size-10 rounded-full" src={`${post.author.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${post.author.avatar}.jpg` : `https://ui-avatars.com/api?name=${post.author.nick}&format=webp`}`} />
                             }
                             <p className="flex flex-col text-white">
                                 <span className="flex flex-row gap-3">
@@ -108,7 +108,7 @@ export default async function CommunityPage({ params }: { params: { slug: string
                     {
                         comments.data.map((x, i) => <div key={i} className="flex flex-row gap-3 text-white">
                             {
-                                <Image width={512} height={512} alt="Avatar" className="size-8 rounded-full" src={`${x.author.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${x.author.avatar}.jpg` : `https://ui-avatars.com/api?name=${x.author.nick}&format=webp`}`} />
+                                <Image unoptimized width={512} height={512} alt="Avatar" className="size-8 rounded-full" src={`${x.author.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${x.author.avatar}.jpg` : `https://ui-avatars.com/api?name=${x.author.nick}&format=webp`}`} />
                             }
                             <div className="flex flex-col gap-2">
                                 <p className="flex w-full flex-row gap-2 text-lg text-gray-500">

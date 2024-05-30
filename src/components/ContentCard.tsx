@@ -85,7 +85,7 @@ export const DefaultContentCard = (props: ContentCardProps) => {
             <div className="flex flex-col gap-3">
                 <div className="flex h-12 flex-row gap-2">
                     {
-                        <Image width={512} height={512} alt="Avatar" className="size-10 rounded-full" src={`${props.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${props.avatar}.jpg` : `https://ui-avatars.com/api?name=${props.user}&format=webp`}`} />
+                        <Image unoptimized width={512} height={512} alt="Avatar" className="size-10 rounded-full" src={`${props.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${props.avatar}.jpg` : `https://ui-avatars.com/api?name=${props.user}&format=webp`}`} />
                     }
                     <p className="flex flex-col text-white">
                         <span className="flex flex-row gap-3">
@@ -114,12 +114,12 @@ export const DefaultContentCard = (props: ContentCardProps) => {
                                 <div className="fixed inset-0 z-[90] overflow-y-auto backdrop-blur-sm">
                                     <CircleX className="absolute right-0 top-0 m-4 cursor-pointer text-white" size={32} onClick={() => setFullscreenState(false)} />
                                     <div className={"flex size-full items-center justify-center"}>
-                                        <Image className="image-container h-full w-3/5 object-contain" height={1920} width={1280} alt="Content" src={`https://s3.tebi.io/foresia/assets/posts/${props.image}.jpg`} />
+                                        <Image unoptimized className="image-container h-full w-3/5 object-contain" height={1920} width={1280} alt="Content" src={`https://s3.tebi.io/foresia/assets/posts/${props.image}.jpg`} />
                                     </div>
                                 </div>
                             </>
                         }
-                        <Image onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-full rounded-lg object-contain" alt="Content" src={`https://s3.tebi.io/foresia/assets/posts/${props.image}.jpg`} />
+                        <Image unoptimized onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-full rounded-lg object-contain" alt="Content" src={`https://s3.tebi.io/foresia/assets/posts/${props.image}.jpg`} />
                     </>
                 }
             </div>
@@ -169,7 +169,7 @@ export const CommunityContentCard = (props: ContentCardProps) => {
             <div className="flex flex-col gap-3">
                 <div className="flex h-12 flex-row gap-2">
                     {
-                        <Image width={512} height={512} alt="Avatar" className="size-10 rounded-full" src={`${props.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${props.avatar}.jpg` : `https://ui-avatars.com/api?name=${props.user}&format=webp`}`} />
+                        <Image unoptimized width={512} height={512} alt="Avatar" className="size-10 rounded-full" src={`${props.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${props.avatar}.jpg` : `https://ui-avatars.com/api?name=${props.user}&format=webp`}`} />
                     }
                     <p className="flex flex-col text-white">
                         <span className="font-bold">u/{props.user}</span>
@@ -190,12 +190,12 @@ export const CommunityContentCard = (props: ContentCardProps) => {
                                 <div className="fixed inset-0 z-[90] overflow-y-auto backdrop-blur-sm">
                                     <CircleX className="absolute right-0 top-0 m-4 cursor-pointer text-white" size={32} onClick={() => setFullscreenState(false)} />
                                     <div className={"flex size-full items-center justify-center"}>
-                                        <Image className="image-container h-full w-3/5 object-contain" height={1920} width={1280} alt="Content" src={`https://s3.tebi.io/foresia/assets/posts/${props.image}.jpg`} />
+                                        <Image unoptimized className="image-container h-full w-3/5 object-contain" height={1920} width={1280} alt="Content" src={`https://s3.tebi.io/foresia/assets/posts/${props.image}.jpg`} />
                                     </div>
                                 </div>
                             </>
                         }
-                        <Image onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-full rounded-lg object-contain" alt="Content" src={`https://s3.tebi.io/foresia/assets/posts/${props.image}.jpg`} />
+                        <Image unoptimized onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-full rounded-lg object-contain" alt="Content" src={`https://s3.tebi.io/foresia/assets/posts/${props.image}.jpg`} />
                     </>
                 }
             </div>

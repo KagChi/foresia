@@ -72,7 +72,7 @@ export default function Create({ params }: { params: { slug: string } }) {
                         <CloudUpload />
                     </button>
 
-                    {file && <Image className="h-auto w-full rounded-md object-cover" width={1280} height={1080} alt="Image" src={URL.createObjectURL(file)} />}
+                    {file && <Image unoptimized className="h-auto w-full rounded-md object-cover" width={1280} height={1080} alt="Image" src={URL.createObjectURL(file)} />}
                 </div>
 
                 <div className="ml-auto flex">

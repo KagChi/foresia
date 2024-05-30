@@ -31,13 +31,13 @@ export default function ClientLayout({
                                 <div className="h-48 xl:rounded-md" />
                             </div>
                             : <div className="relative h-48 xl:rounded-md">
-                                <Image className="h-48 object-cover object-center xl:rounded-md" alt="banner" height={1920} width={1280} src={`https://s3.tebi.io/foresia/assets/banners/${community.banner}.jpg`} />
+                                <Image unoptimized className="h-48 object-cover object-center xl:rounded-md" alt="banner" height={1920} width={1280} src={`https://s3.tebi.io/foresia/assets/banners/${community.banner}.jpg`} />
                                 <div className="absolute top-0 h-48 w-full bg-gradient-to-b from-[#1B1B1B90] xl:rounded-md" />
                             </div>
                     }
 
                     <div className="mt-4 flex flex-row items-center gap-4 px-4 md:mt-0 md:items-start md:gap-0 lg:px-36">
-                        <Image className="size-20 rounded-full bg-[#29252C] object-cover p-2 md:absolute md:top-32 md:size-28 lg:left-6" alt="banner" height={512} width={512} src={community.icon ? `https://s3.tebi.io/foresia/assets/icons/${community.icon}.jpg` : `https://ui-avatars.com/api?name=${community.name}&format=webp`} />
+                        <Image unoptimized className="size-20 rounded-full bg-[#29252C] object-cover p-2 md:absolute md:top-32 md:size-28 lg:left-6" alt="banner" height={512} width={512} src={community.icon ? `https://s3.tebi.io/foresia/assets/icons/${community.icon}.jpg` : `https://ui-avatars.com/api?name=${community.name}&format=webp`} />
                         <div className="text-white md:px-32 lg:px-0">
                             <p className="text-xl font-bold md:mt-10 md:text-3xl">fs/{community.name}</p>
                             <p className="-mt-1 text-sm">

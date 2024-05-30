@@ -46,7 +46,7 @@ export const Sidebar = ({ children, profile }: Readonly<{ children?: React.React
             <div className={`sidebar-container flex h-screen flex-col bg-[#1B1B1B] ${state ? "absolute z-40 w-9/12 md:relative md:w-80" : "hidden w-full md:w-80 lg:flex"}`}>
                 <div className="flex h-full flex-col gap-10 overflow-y-auto px-6 py-4">
                     <a href="/" className="flex flex-row items-center gap-4 text-white">
-                        <Image className="size-12 rounded-full" height={512} width={512} alt="Logo" src={"/Logo.png"} />
+                        <Image unoptimized className="size-12 rounded-full" height={512} width={512} alt="Logo" src={"/Logo.png"} />
                         <p className="text-xl font-bold ">Foresia</p>
                     </a>
 

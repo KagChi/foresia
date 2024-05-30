@@ -21,7 +21,7 @@ export const ProfileCardSidebar = ({ auth }: { auth: Auth }) => {
             <div className={`${auth.loading ? "animate-pulse " : ""}flex w-full flex-row items-center`}>
                 <a href={`${auth.user ? `/u/${auth.user.username?.toLowerCase()}` : "#"}`} className="flex w-full flex-row gap-2 rounded-md px-3 py-2 hover:bg-[#1B1B1B70]">
                     {
-                        auth.loading && !auth.user ? <div className="size-8 rounded-full bg-[#1B1B1B] md:size-10" /> : <Image width={512} height={512} alt="Avatar" className="size-8 rounded-full md:size-10" src={`${auth.user?.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${auth.user.avatar}.jpg` : `https://ui-avatars.com/api?name=${auth.user?.nick ?? "Unknown"}&format=webp`}`} />
+                        auth.loading && !auth.user ? <div className="size-8 rounded-full bg-[#1B1B1B] md:size-10" /> : <Image unoptimized width={512} height={512} alt="Avatar" className="size-8 rounded-full md:size-10" src={`${auth.user?.avatar ? `https://s3.tebi.io/foresia/assets/avatars/${auth.user.avatar}.jpg` : `https://ui-avatars.com/api?name=${auth.user?.nick ?? "Unknown"}&format=webp`}`} />
                     }
                     <div className="flex flex-col gap-2 text-white">
                         {

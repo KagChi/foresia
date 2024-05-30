@@ -112,7 +112,7 @@ export default function ClientPage() {
                             <CloudUpload />
                         </button>
 
-                        {iconFile && <Image className="size-16 rounded-full object-cover" width={512} height={512} alt="Avatar" src={URL.createObjectURL(iconFile)} />}
+                        {iconFile && <Image unoptimized className="size-16 rounded-full object-cover" width={512} height={512} alt="Avatar" src={URL.createObjectURL(iconFile)} />}
                     </div>
 
                     <div className="flex flex-col gap-2 text-white">
@@ -123,7 +123,7 @@ export default function ClientPage() {
                             <CloudUpload />
                         </button>
 
-                        {bannerFile && <Image className="h-auto w-full rounded-md object-cover" width={1280} height={1080} alt="Avatar" src={URL.createObjectURL(bannerFile)} />}
+                        {bannerFile && <Image unoptimized className="h-auto w-full rounded-md object-cover" width={1280} height={1080} alt="Avatar" src={URL.createObjectURL(bannerFile)} />}
                     </div>
 
                     <div>
