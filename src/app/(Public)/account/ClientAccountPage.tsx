@@ -193,7 +193,7 @@ export const Info = ({ user }: { user: {
 
             <div className="mt-4 flex flex-row items-center justify-between">
                 <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                    <Image className="size-12 rounded-full" width={512} height={512} src={
+                    <Image unoptimized className="size-12 rounded-full" width={512} height={512} src={
                         avatarFile
                             ? URL.createObjectURL(avatarFile)
                             : user.avatar
