@@ -23,7 +23,7 @@ export default function RootLayout({
     useEffect(() => {
         void ownedCommunity()
             .then(x => setCommunities(x.data));
-    }, []);
+    }, [auth]);
 
     return (
         <body className={`${Baloo.className} flex h-full min-h-screen flex-row overflow-y-hidden`}>

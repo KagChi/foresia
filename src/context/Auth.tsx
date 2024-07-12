@@ -1,6 +1,7 @@
 import { findAccount } from "@/actions/Account";
 import { User } from "@/db/schema";
 import { firebaseApp } from "@/lib/client.firebase";
+import { setCookie } from "cookies-next";
 import { getAuth, onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { useEffect } from "react";
 import { state, useSnapshot } from "reactish-state";
@@ -26,7 +27,12 @@ export const useAuthSnapshot = () => {
                 const formData = new FormData();
                 formData.set("user_or_email", u.email);
 
-                void findAccount(formData).then(x => authState.set({ user: x.data, loading: false, firebaseUser: u }));
+                void findAccount(formData).then(x => {
+                    u.getIdToken().then(y => {
+                        authState.set({ user: x.data, loading: false, firebaseUser: u });
+                        setCookie("session", y);
+                    })
+                });
             } else {
                 authState.set({ user: null, loading: false, firebaseUser: u });
             }
@@ -34,6 +40,8 @@ export const useAuthSnapshot = () => {
 
         return () => unsubscribe();
     }, []);
+
+    console.log(auth);
 
     return auth;
 };

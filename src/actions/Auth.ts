@@ -4,17 +4,15 @@ import { firebase } from "@/lib/server.firebase";
 import { cookies } from "next/headers";
 
 export const createSession = async (token: string) => {
-    const expiresIn = 60 * 60 * 24 * 7 * 1000; // 7 Days.
+    const expiresIn = 60 * 60 * 24 * 365 * 1000; // 365 Days.
 
-    const auth = await (await firebase()).auth()
-        .createSessionCookie(token, { expiresIn });
     cookies()
-        .set("session", auth, { maxAge: expiresIn });
+        .set("session", token, { maxAge: expiresIn })
 };
 
 export const fetchSession = async () => {
     const token = cookies().get("session")?.value ?? "";
-    const firebaseUser = await (await firebase()).auth().verifySessionCookie(token, true).catch(() => null);
+    const firebaseUser = await (await firebase()).auth().verifyIdToken(token, true).catch(() => null);
 
     return firebaseUser;
 };
