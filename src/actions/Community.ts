@@ -457,13 +457,8 @@ export const deletePost = async (slug: string, session?: DecodedIdToken | null |
             CommunityPost
         )
             .where(
-                and(
-                    ilike(
-                        CommunityPost.slug, slug
-                    ),
-                    eq(
-                        CommunityPost.userId, session.uid
-                    )
+                ilike(
+                    CommunityPost.slug, slug
                 )
             );
 
