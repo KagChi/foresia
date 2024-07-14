@@ -44,7 +44,7 @@ export const DefaultContentCard = (props: ContentCardProps) => {
     }, [fullscreenState]);
 
     return (
-        <Link href={`/fs/${props.community.toLowerCase()}/posts/${props.slug}`} className="flex w-full cursor-pointer flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4">
+        <div className="flex w-full flex-col-reverse gap-6 rounded-md p-2 hover:bg-[#12372A40] md:p-4">
             <div className="flex h-10 flex-row items-center justify-between">
                 <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-sm text-white md:text-lg">
                     <ChevronUp onClick={() => {
@@ -56,7 +56,7 @@ export const DefaultContentCard = (props: ContentCardProps) => {
                                     toast.error(x.message);
                                 }
                             });
-                    }} className="hover:opacity-65" strokeWidth={3} color="#5da35d" />
+                    }} className="cursor-pointer hover:opacity-65" strokeWidth={3} color="#5da35d" />
                     <p>{formatNumber(props.voteCount)}</p>
                     <ChevronDown onClick={() => {
                         void voteCommunityPost(props.slug, "DOWNVOTE")
@@ -67,18 +67,22 @@ export const DefaultContentCard = (props: ContentCardProps) => {
                                     toast.error(x.message);
                                 }
                             });
-                    }} className="hover:opacity-65" strokeWidth={3} color="#b32b2b" />
+                    }} className="cursor-pointer hover:opacity-65" strokeWidth={3} color="#b32b2b" />
                 </div>
 
                 <div className="flex h-full flex-row gap-1">
-                    <div className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-white">
-                        <MessageSquareMore size={22} color="white" />
+                    <Link href={`/fs/${props.community.toLowerCase()}/posts/${props.slug}`} className="flex h-full w-fit flex-row items-center gap-1 rounded-full bg-[#1B1B1B] px-4 text-white">
+                        <MessageSquareMore size={20} color="white" />
                         <p>{formatNumber(props.commentCount)}</p>
-                    </div>
+                    </Link>
 
-                    <div className="flex h-full flex-row items-center gap-1 rounded-full bg-[#1B1B1B] p-2 text-white">
-                        <Share2 />
-                    </div>
+                    <button onClick={() => {
+                        const url = new URL(window.location.href);
+                        url.pathname = `/fs/${props.community.toLowerCase()}/posts/${props.slug}`;
+                        void navigator.clipboard.writeText(url.toString()).then(() => toast.success("Successfully copied share url !"));
+                    }} className="flex size-10 items-center justify-center gap-1 rounded-full bg-[#1B1B1B] p-2 text-white">
+                        <Share2 size={20} />
+                    </button>
                 </div>
             </div>
 
@@ -99,14 +103,16 @@ export const DefaultContentCard = (props: ContentCardProps) => {
                         <span className="-mt-1 text-gray-400">Posted by {props.user}</span>
                     </p>
                 </div>
-                <p className="text-white">
-                    <span className="line-clamp-1 text-lg font-bold md:text-2xl">
-                        {props.title}
-                    </span>
-                    <span className="line-clamp-3 text-xs text-gray-400 md:text-sm">
-                        {props.description}
-                    </span>
-                </p>
+                <Link href={`/fs/${props.community.toLowerCase()}/posts/${props.slug}`} className="cursor-pointer">
+                    <p className="text-white">
+                        <span className="line-clamp-1 text-lg font-bold md:text-2xl">
+                            {props.title}
+                        </span>
+                        <span className="line-clamp-3 text-xs text-gray-400 md:text-sm">
+                            {props.description}
+                        </span>
+                    </p>
+                </Link>
                 {
                     props.image && <>
                         {
@@ -119,11 +125,11 @@ export const DefaultContentCard = (props: ContentCardProps) => {
                                 </div>
                             </>
                         }
-                        <Image unoptimized onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-full rounded-lg object-contain" alt="Content" src={`https://s3.tebi.io/foresia/assets/posts/${props.image}.jpg`} />
+                        <Image unoptimized onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-full cursor-pointer rounded-lg object-contain" alt="Content" src={`https://s3.tebi.io/foresia/assets/posts/${props.image}.jpg`} />
                     </>
                 }
             </div>
-        </Link>
+        </div>
     );
 };
 
