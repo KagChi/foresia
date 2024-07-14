@@ -28,10 +28,10 @@ export const useAuthSnapshot = () => {
                 formData.set("user_or_email", u.email);
 
                 void findAccount(formData).then(x => {
-                    u.getIdToken().then(y => {
+                    void u.getIdToken().then(y => {
                         authState.set({ user: x.data, loading: false, firebaseUser: u });
                         setCookie("session", y);
-                    })
+                    });
                 });
             } else {
                 authState.set({ user: null, loading: false, firebaseUser: u });
