@@ -37,10 +37,9 @@ const Login = () => <>
                         .then(y => {
                             if (typeof y === "object") {
                                 void y.user.getIdToken().then(sessionToken => {
-                                    void createSession(sessionToken).then(() => {
-                                        toast.success(`Logged in as ${y.user.displayName}`, { id: toastId });
-                                        window.location.reload();
-                                    });
+                                    createSession(sessionToken);
+                                    toast.success(`Logged in as ${y.user.displayName}`, { id: toastId });
+                                    window.location.reload();
                                 });
                             }
                         });
