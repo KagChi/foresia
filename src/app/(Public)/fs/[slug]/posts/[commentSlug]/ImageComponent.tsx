@@ -35,7 +35,7 @@ export default function ImageComponent({ image }: { image: string }) {
                     </div>
                 </>
             }
-            <Image onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-full rounded-lg object-contain" alt="Content" src={`https://s3.tebi.io/foresia/assets/posts/${image}.jpg`} />
+            <Image onClick={() => setFullscreenState(true)} height={1920} width={1280} className="h-full cursor-pointer rounded-lg object-contain" alt="Content" src={`https://s3.tebi.io/foresia/assets/posts/${image}.jpg`} />
         </>
     );
 }

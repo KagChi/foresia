@@ -2,13 +2,16 @@
 
 import { findCommunityPost, findCommunityPostComment } from "@/actions/Community";
 import { NotFound } from "@/components/NotFound";
-import { MessageSquareMore, Share2, ChevronLeft } from "lucide-react";
+import { MessageSquareMore, ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { timeSince } from "@/app/util/parseDate";
 import CommentComponent from "./CommentComponent";
 import ImageComponent from "./ImageComponent";
 import { VoteComponent } from "./VoteComponent";
 import { Metadata } from "next";
+import { ShareButtonComponent } from "./ShareButtonComponent";
+import { DeleteButtonComponent } from "./DeleteButtonComponent";
+import { fetchSession } from "@/actions/Auth";
 
 export async function generateMetadata({ params }: { params: { commentSlug: string } }): Promise<Metadata> {
     const { data: post } = await findCommunityPost(params.commentSlug);
@@ -45,6 +48,7 @@ export default async function CommunityPage({ params }: { params: { slug: string
         return <NotFound />;
     }
 
+    const session = await fetchSession();
     const comments = await findCommunityPostComment(params.commentSlug);
     return (
         <div className="container h-full max-w-5xl p-4 lg:mt-0 xl:px-0">
@@ -61,9 +65,11 @@ export default async function CommunityPage({ params }: { params: { slug: string
                                 <p>{comments.data.length}</p>
                             </div>
 
-                            <div className="flex h-full flex-row items-center gap-1 rounded-full bg-[#1B1B1B] p-2 text-white">
-                                <Share2 />
-                            </div>
+                            <ShareButtonComponent />
+                            {
+                                (session?.uid === post.author.id || session?.uid === post.community.ownerId) &&
+                                    <DeleteButtonComponent homeSlug={params.slug} slug={params.commentSlug} />
+                            }
                         </div>
                     </div>
 

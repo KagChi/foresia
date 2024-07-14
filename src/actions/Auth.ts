@@ -3,11 +3,11 @@
 import { firebase } from "@/lib/server.firebase";
 import { cookies } from "next/headers";
 
-export const createSession = async (token: string) => {
+export const createSession = (token: string) => {
     const expiresIn = 60 * 60 * 24 * 365 * 1000; // 365 Days.
 
     cookies()
-        .set("session", token, { maxAge: expiresIn })
+        .set("session", token, { maxAge: expiresIn });
 };
 
 export const fetchSession = async () => {

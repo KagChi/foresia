@@ -244,8 +244,8 @@ export const ownedCommunity = async (session?: DecodedIdToken | null | undefined
 export type FindCommunityPostResult = Pick<typeof CommunityPost.$inferSelect, "image" | "slug" | "title" | "message" | "createdAt"> & {
     voteCount: number;
     commentCount: number;
-    author: Pick<typeof User.$inferSelect, "nick" | "username" | "avatar">;
-    community: Pick<typeof Community.$inferSelect, "name">;
+    author: Pick<typeof User.$inferSelect, "nick" | "username" | "avatar" | "id">;
+    community: Pick<typeof Community.$inferSelect, "name" | "ownerId">;
 };
 
 export const communityPost = async (slug: string) => {
@@ -358,12 +358,14 @@ export const findCommunityPost = async (slug: string) => {
             message: CommunityPost.message,
             createdAt: CommunityPost.createdAt,
             author: {
+                id: User.id,
                 nick: User.nick,
                 username: User.username,
                 avatar: User.avatar
             },
             community: {
-                name: Community.name
+                name: Community.name,
+                ownerId: Community.ownerId
             },
             image: CommunityPost.image,
             voteCount: sql<number>`cast(count(distinct ${CommunityPostVote.id}) as integer)`,
@@ -438,6 +440,38 @@ export const findCommunityPostComment = async (slug: string) => {
         console.error(e);
 
         return { data: [], message: "Failed to querying with unknown reason", success: false };
+    }
+};
+
+export const deletePost = async (slug: string, session?: DecodedIdToken | null | undefined) => {
+    try {
+        if (!session) {
+            session = await fetchSession();
+        }
+
+        if (!session) {
+            return { message: "Not authenticated!", success: false };
+        }
+
+        await db.delete(
+            CommunityPost
+        )
+            .where(
+                and(
+                    ilike(
+                        CommunityPost.slug, slug
+                    ),
+                    eq(
+                        CommunityPost.userId, session.uid
+                    )
+                )
+            );
+
+        return { message: "Successfuly deleted post!", success: true };
+    } catch (e: unknown) {
+        console.error(e);
+
+        return { data: null, message: "Failed to querying with unknown reason", success: false };
     }
 };
 

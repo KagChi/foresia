@@ -41,8 +41,6 @@ export const useAuthSnapshot = () => {
         return () => unsubscribe();
     }, []);
 
-    console.log(auth);
-
     return auth;
 };
 
