@@ -134,7 +134,9 @@ const Register = () => <>
         </form>
     </div>
 </>;
+
 export const LogOut = () => <button
+    type="button"
     onClick={() => {
         const toastId = toast.loading("Loggin out...");
         void getAuth(firebaseApp).signOut().then(() => {
@@ -146,6 +148,7 @@ export const LogOut = () => <button
                 toast.error("There was an error while logging out", { id: toastId });
             });
     }} className="mt-6 flex h-10 min-w-fit flex-row items-center justify-between gap-2 rounded-md bg-[#b32b2b] px-4 py-2 text-xs font-bold text-white hover:bg-[#b32b2b65] md:text-base">
+
     <p className="flex flex-row items-center gap-4">
                 Log out
     </p>
