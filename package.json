@@ -36,7 +36,7 @@
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.17.0",
     "drizzle-kit": "^0.20.18",
-    "eslint": "^9.7.0",
+    "eslint": "^9.8.0",
     "eslint-config-next": "14.2.5",
     "eslint-plugin-drizzle": "^0.2.3",
     "eslint-plugin-tailwindcss": "^3.17.4",
